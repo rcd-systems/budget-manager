@@ -1,12 +1,11 @@
 package systems.rcd.bm.model;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import systems.rcd.bm.exc.BmException;
+import systems.rcd.bm.model.convert.BmModelXlsAccountConverter;
+import systems.rcd.bm.model.convert.BmModelXlsTypeConverter;
 import systems.rcd.bm.model.data.Account;
 import systems.rcd.bm.model.data.Transfer;
 import systems.rcd.bm.model.data.Type;
@@ -15,9 +14,9 @@ import systems.rcd.fwk.core.format.xls.data.RcdXlsWorkbook;
 
 public class BmModelService implements RcdService, BmModelConstants {
 
-    private static Map<String, Account> accountMap = Collections.synchronizedMap(new HashMap<>());
-    private static Map<String, Type> typeMap = Collections.synchronizedMap(new HashMap<>());
-    private static List<Transfer> transfers = Collections.synchronizedList(new LinkedList<>());
+    private Map<String, Account> accountMap;
+    private Map<String, Type> typeMap;
+    private List<Transfer> transfers;
 
     public BmModelService() throws Exception {
         final RcdXlsWorkbook workbook = parseInputFile();
@@ -36,6 +35,7 @@ public class BmModelService implements RcdService, BmModelConstants {
     }
 
     private void load(final RcdXlsWorkbook workbook) {
-
+        accountMap = new BmModelXlsAccountConverter().convert(workbook.get(ACCOUNTS_SHEET_NAME));
+        typeMap = new BmModelXlsTypeConverter().convert(workbook.get(TYPES_SHEET_NAME));
     }
 }
