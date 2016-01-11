@@ -1,5 +1,6 @@
 package systems.rcd.bm.model.data;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,21 +17,21 @@ public class Type {
         return name;
     }
 
+    public Collection<Type> getSubTypes() {
+        return subTypes.values();
+    }
+
+    public Type getParent() {
+        return parent;
+    }
+
     public Type addSubType(final Type subType) {
         if (subType.parent != null) {
             subType.parent.subTypes.remove(subType);
         }
         subType.parent = this;
-
-        final Type existingSubType = subTypes.put(subType.name, subType);
-        if (existingSubType != null) {
-            existingSubType.parent = null;
-        }
+        subTypes.put(subType.name, subType);
         return this;
-    }
-
-    public Type getParent() {
-        return parent;
     }
 
     @Override
@@ -44,45 +45,23 @@ public class Type {
         return false;
     }
 
-    public boolean isOrChildOf(final Type type) {
+    public boolean isChildOf(final Type type) {
+        if (this.parent == null) {
+            return type == null;
+        }
         if (type == null) {
             return false;
         }
+        if (this.parent.equals(type)) {
+            return true;
+        }
+        return this.parent.isChildOf(type);
+    }
+
+    public boolean isOrChildOf(final Type type) {
         if (equals(type)) {
             return true;
         }
-        if (parent != null) {
-            return parent.isOrChildOf(type);
-        }
-        return false;
+        return isChildOf(type);
     }
-
-    public boolean isChildOf(final Type parent) {
-        if (this.parent == null) {
-            return parent == null;
-        }
-        if (parent == null) {
-            return false;
-        }
-        if (this.parent.equals(parent)) {
-            return true;
-        }
-        return this.parent.isChildOf(parent);
-    }
-
-    public boolean isParentOf(final Type child) {
-        for (final Type subtype : subTypes.values()) {
-            if (subtype.equals(child)) {
-                return true;
-            }
-        }
-
-        for (final Type subtype : subTypes.values()) {
-            if (subtype.isParentOf(child)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

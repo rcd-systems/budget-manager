@@ -21,21 +21,17 @@ public class Account {
         return subAccounts.values();
     }
 
+    public Account getParent() {
+        return parent;
+    }
+
     public Account addSubAccount(final Account subAccount) {
         if (subAccount.parent != null) {
             subAccount.parent.subAccounts.remove(subAccount);
         }
         subAccount.parent = this;
-
-        final Account existingSubAccount = subAccounts.put(subAccount.name, subAccount);
-        if (existingSubAccount != null) {
-            existingSubAccount.parent = null;
-        }
+        subAccounts.put(subAccount.name, subAccount);
         return this;
-    }
-
-    public Account getParent() {
-        return parent;
     }
 
     @Override
@@ -49,44 +45,23 @@ public class Account {
         return false;
     }
 
-    public boolean isOrChildOf(final Account account) {
+    public boolean isChildOf(final Account account) {
+        if (this.parent == null) {
+            return account == null;
+        }
         if (account == null) {
             return false;
         }
+        if (this.parent.equals(account)) {
+            return true;
+        }
+        return this.parent.isChildOf(account);
+    }
+
+    public boolean isOrChildOf(final Account account) {
         if (equals(account)) {
             return true;
         }
-        if (parent != null) {
-            return parent.isOrChildOf(account);
-        }
-        return false;
-    }
-
-    public boolean isChildOf(final Account parent) {
-        if (this.parent == null) {
-            return parent == null;
-        }
-        if (parent == null) {
-            return false;
-        }
-        if (this.parent.equals(parent)) {
-            return true;
-        }
-        return this.parent.isChildOf(parent);
-    }
-
-    public boolean isParentOf(final Account child) {
-        for (final Account subAccount : subAccounts.values()) {
-            if (subAccount.equals(child)) {
-                return true;
-            }
-        }
-
-        for (final Account subAccount : subAccounts.values()) {
-            if (subAccount.isParentOf(child)) {
-                return true;
-            }
-        }
-        return false;
+        return isChildOf(account);
     }
 }
