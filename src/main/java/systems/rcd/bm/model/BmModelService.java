@@ -2,6 +2,7 @@ package systems.rcd.bm.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import systems.rcd.bm.exc.BmException;
 import systems.rcd.bm.model.convert.BmModelXlsAccountConverter;
@@ -20,11 +21,17 @@ public class BmModelService implements RcdService, BmModelConstants {
     private Map<String, Type> typeMap;
     private List<Transfer> transfers;
 
+    private static List<Account> rootAccounts;
+    private static List<Type> rootTypes;
+    private static Map<Integer, Map<Integer, List<Transfer>>> transfersByDate;
+    private static Map<Integer, Map<Integer, List<Transfer>>> transfersBySourceDate;
+    private static Map<Integer, Map<Integer, List<Transfer>>> transfersByTargetDate;
+
     public BmModelService() throws Exception {
         final RcdXlsWorkbook workbook = parseInputFile();
         validateFormat(workbook);
         load(workbook);
-        System.out.println(transfers);
+        index();
     }
 
     private RcdXlsWorkbook parseInputFile() throws Exception {
@@ -55,5 +62,35 @@ public class BmModelService implements RcdService, BmModelConstants {
             }
             throw new BmException("Incorrect data in the input file");
         }
+    }
+
+    private void index() {
+        rootAccounts = accountMap.values()
+                .stream()
+                .filter(account -> account.getParent() == null)
+                .collect(Collectors.toList());
+
+        rootTypes = typeMap.values()
+                .stream()
+                .filter(type -> type.getParent() == null)
+                .collect(Collectors.toList());
+
+        transfersByDate = transfers.stream()
+                .collect(Collectors.groupingBy(transfer -> transfer.getDate()
+                        .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getDate()
+                                .getMonthValue())));
+
+        transfersBySourceDate = transfers.stream()
+                .filter(transfer -> transfer.getSourceDate() != null)
+                .collect(Collectors.groupingBy(transfer -> transfer.getSourceDate()
+                        .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getSourceDate()
+                                .getMonthValue())));
+
+        transfersByTargetDate = transfers.stream()
+                .filter(transfer -> transfer.getTargetDate() != null)
+                .collect(Collectors.groupingBy(transfer -> transfer.getTargetDate()
+                        .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getTargetDate()
+                                .getMonthValue())));
+
     }
 }
