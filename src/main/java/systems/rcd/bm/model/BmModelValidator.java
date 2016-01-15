@@ -6,11 +6,10 @@ import systems.rcd.fwk.core.format.xls.data.RcdXlsCellType;
 import systems.rcd.fwk.core.format.xls.data.RcdXlsWorkbook;
 import systems.rcd.fwk.core.format.xls.util.RcdXlsSheetValidator;
 import systems.rcd.fwk.core.format.xls.util.RcdXlsWorkbookValidator;
-import systems.rcd.fwk.core.log.RcdLogService;
 
 public class BmModelValidator implements BmModelConstants {
 
-    public boolean validate(final RcdXlsWorkbook workbook) {
+    public List<String> validate(final RcdXlsWorkbook workbook) {
         final RcdXlsSheetValidator transfersSheetValidator = new RcdXlsSheetValidator().setColumnMandatoriness(
                 TRANSFERS_TYPE_INDEX, TRANSFERS_DATE_INDEX, TRANSFERS_DATE_INDEX, TRANSFERS_AMOUNT_INDEX,
                 TRANSFERS_CURRENCY_INDEX)
@@ -32,11 +31,7 @@ public class BmModelValidator implements BmModelConstants {
                 .addSheetValidator(ACCOUNTS_SHEET_NAME, new RcdXlsSheetValidator().setColumnMandatoriness(0))
                 .validate(workbook);
 
-        for (final String error : errors) {
-            RcdLogService.error(error);
-        }
-
-        return errors.isEmpty();
+        return errors;
     }
 
 }
