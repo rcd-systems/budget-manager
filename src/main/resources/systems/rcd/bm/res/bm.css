@@ -1,32 +1,45 @@
-body {
-	font-family: sans-serif;
-}
-
+/* Removing default parameters */ 
 body, h1, p {
 	margin: 0;
 }
 
-header {
+/* Global parameters */
+.rcd-doc {
+	font-family: sans-serif;
+}
+
+/* Containers */
+.rcd-header, .rcd-nav-bar, .rcd-nav-button {
+	display: flex;	
+}
+
+/* Header */
+.rcd-header {
 	background : #607D8B;
 	color: #FFFFFF;
-	display: flex;
+	fill: #FFFFFF;
 	justify-content: space-between;
 }
 
-header h1 {
-	display: inline;
+.rcd-nav-button {
+	flex-grow: 2;
+	border: 1px solid #78909c;
+	margin-right: 1px;
+	border-radius: 4px;
 }
 
-header a:hover {
+.rcd-nav-button:hover {
 	background: #78909c;
 }
 
-nav {
+.rcd-nav-bar {
 	align-self: flex-end;
-	display: flex;
 	justify-content: flex-end;			
 }
 
+
+
+/* Main part */
 main {
 	padding-top: 1em;
 	max-width: 800px;
