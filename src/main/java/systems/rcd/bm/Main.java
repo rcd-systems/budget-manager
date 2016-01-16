@@ -1,9 +1,13 @@
 package systems.rcd.bm;
 
+import java.awt.Desktop;
+import java.io.IOException;
+
 import systems.rcd.bm.model.BmModelService;
 import systems.rcd.fwk.core.ctx.RcdContext;
 import systems.rcd.fwk.core.log.RcdLogService;
 import systems.rcd.fwk.jetty.impl.RcdJettyService;
+import systems.rcd.fwk.jetty.impl.data.RcdJettyServer;
 import systems.rcd.fwk.poi.xls.impl.RcdPoiXlsService;
 
 public class Main {
@@ -12,8 +16,9 @@ public class Main {
         RcdLogService.info("Budget Manager 8");
         configure();
         loadData();
-        launchServer();
-
+        final RcdJettyServer server = launchServer();
+        launchBrowser(server);
+        server.join();
     }
 
     private static void configure() {
@@ -25,10 +30,17 @@ public class Main {
         RcdContext.setGlobalServiceSupplier(BmModelService.class, () -> bmModelService);
     }
 
-    private static void launchServer() throws Exception {
-        RcdJettyService.createServer(0)
+    private static RcdJettyServer launchServer() throws Exception {
+        return RcdJettyService.createServer(0)
                 .addResourceHandler("/res", Main.class.getResource("res"))
-        .start()
-        .join();
+                .start();
+    }
+
+    private static void launchBrowser(final RcdJettyServer server) throws IOException {
+        if (Desktop.isDesktopSupported())
+        {
+            Desktop.getDesktop()
+            .browse(server.getUri());
+        }
     }
 }

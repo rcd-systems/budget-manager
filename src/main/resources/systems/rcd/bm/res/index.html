@@ -4,12 +4,13 @@
 		<title>Budget Manager</title>
 		<meta charset="UTF-8"> 
 		<link rel="stylesheet" type="text/css" href="bm.css">
+		<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
 	</head>
 	<body class="rcd-doc">
 		<header class="rcd-header">
-			<h1 class="rcd-title">Budget Manager</h1>
+			<h1 class="rcd-title" id="aa">Budget Manager</h1>
 			<nav class="rcd-nav-bar">
-			   <a class="rcd-button">
+			   <a class="rcd-button" id="bm-nav-button-transfers">
 			   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
 					<path d="M21,9L17,5V8H10V10H17V13M7,11L3,15L7,19V16H14V14H7V11Z" />
 				</svg>
@@ -58,13 +59,14 @@
 				</ul>		
 				 
 			</section>
-			<section class="hidden">
-			bbb
-		qegqergqezrgqergeq
+			<section id="bm-section-transfers" class="hidden">
+				
 			</section>
 			
 		</main>
 		<footer>
 		</footer>
+		
+		<script src="bm.js"></script>
 	</body>
 </html> 
