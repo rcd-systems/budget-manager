@@ -3,19 +3,26 @@ body, h1, p {
 	margin: 0;
 }
 
-/* Global parameters */
-.rcd-doc {
-	font-family: sans-serif;
+html, body, main {
+	height: 100%;
 }
 
 /* Containers */
-.rcd-header, .rcd-nav-bar, .rcd-nav-button {
+.rcd-doc, .rcd-header, .rcd-nav-bar, .rcd-nav-button {
 	display: flex;	
+}
+
+.rcd-doc {
+	font-family: sans-serif;	
+	flex-direction : column;
+	align-items: center;
+	color : #455a64;
 }
 
 /* Header */
 .rcd-header {
-	background : #607D8B;
+	width: 100%;
+	background : #607d8b;
 	color: #FFFFFF;
 	fill: #FFFFFF;
 	justify-content: space-between;
@@ -23,9 +30,13 @@ body, h1, p {
 
 .rcd-nav-button {
 	flex-grow: 2;
-	border: 1px solid #78909c;
-	margin-right: 1px;
+	justify-content: center;
 	border-radius: 4px;
+	cursor: pointer;	
+}
+
+.rcd-nav-button span {
+	margin : 0 0.5em;	
 }
 
 .rcd-nav-button:hover {
@@ -34,17 +45,14 @@ body, h1, p {
 
 .rcd-nav-bar {
 	align-self: flex-end;
-	justify-content: flex-end;			
+	justify-content: flex-end;	
+	min-width: 600px;
 }
-
-
 
 /* Main part */
 main {
-	padding-top: 1em;
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
+	padding: 1em;
+	width: 800px;
 }
 
 h1, a {
