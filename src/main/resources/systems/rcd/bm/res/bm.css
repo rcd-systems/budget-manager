@@ -8,7 +8,7 @@ html, body, main {
 }
 
 /* Containers */
-.rcd-doc, .rcd-header, .rcd-nav-bar, .rcd-nav-button {
+.rcd-doc, .rcd-header, .rcd-nav-bar, .rcd-button {
 	display: flex;	
 }
 
@@ -28,18 +28,18 @@ html, body, main {
 	justify-content: space-between;
 }
 
-.rcd-nav-button {
+.rcd-button {
 	flex-grow: 2;
 	justify-content: center;
 	border-radius: 4px;
 	cursor: pointer;	
 }
 
-.rcd-nav-button span {
+.rcd-button span {
 	margin : 0 0.5em;	
 }
 
-.rcd-nav-button:hover {
+.rcd-button:hover {
 	background: #78909c;
 }
 

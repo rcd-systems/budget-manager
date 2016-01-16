@@ -9,24 +9,24 @@
 		<header class="rcd-header">
 			<h1 class="rcd-title">Budget Manager</h1>
 			<nav class="rcd-nav-bar">
-			   <a class="rcd-nav-button">
+			   <a class="rcd-button">
 			   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
 					<path d="M21,9L17,5V8H10V10H17V13M7,11L3,15L7,19V16H14V14H7V11Z" />
 				</svg>
 			   	<span>Transfers</span></a>
-			   	<a class="rcd-nav-button">
+			   	<a class="rcd-button">
 				   	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 						<path d="M18,22A2,2 0 0,0 20,20V4C20,2.89 19.1,2 18,2H12V9L9.5,7.5L7,9V2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18Z" />
 					</svg>
 					<span>Budget</span>
 				</a>
-			   	<a class="rcd-nav-button">
+			   	<a class="rcd-button">
 				   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
 						<path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.75L5.46,19H22V21H2V3H4V17.54L9.5,8L16,11.78Z" />
 				   </svg>
 					<span>Accounts</span>
 				</a>
-			   	<a class="rcd-nav-button">
+			   	<a class="rcd-button">
 			   		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
     					<path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
 					</svg>
@@ -35,8 +35,28 @@
 			</nav>
 		</header>
 		<main>
-			<section >
-				sssqzrgqergtqe(yteqs(yesyse-ysr'-ys))
+			<section id="bm-section-home">
+				<h1>Welcome to Budget Manager</h1>
+				<p>Before you start, there are 2 concepts to apprehend</p>
+				<h2>Account</h2>
+				<p>You can see an account as a container which receives or sends money.
+				An account can contain sub accounts.
+				</p>
+				<h2>Transfer</h2>
+				<p>A transfer is a movement of money from an account to another</p>
+				<p>It has specific characteristics</p>
+				<ul>
+					<li>Type: Type of transfer</li>
+					<li>Date: Date of the payment (Can be different from the date the money was effectively send or received)</li>
+					<li>Amount: The amount of money transfered</li>
+					<li>Currency: Currency</li>
+					<li>Comments: Optional comments about the transfer</li>
+					<li>Source account: Account sending the money. If undefined the money comes from outside your assets</li>
+					<li>Source date: Date at which the money was sent. If undefined the money was send on the date of payment </li>
+					<li>Target account: Account receiving the money. If undefined the money goes outside of your assets</li>
+					<li>Target date: Date at which the money was received. If undefined the money was received on the date of payment </li>
+				</ul>		
+				 
 			</section>
 			<section class="hidden">
 			bbb
