@@ -17,6 +17,11 @@
 	  <artifactId>rcd-fwk-poi</artifactId>
       <version>7.0.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+	  <groupId>systems.rcd.fwk.jetty</groupId>
+	  <artifactId>rcd-fwk-jetty</artifactId>
+      <version>7.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   
   

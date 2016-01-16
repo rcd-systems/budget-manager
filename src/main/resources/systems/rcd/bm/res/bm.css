@@ -1,0 +1,44 @@
+body {
+	font-family: sans-serif;
+}
+
+body, h1, p {
+	margin: 0;
+}
+
+header {
+	background : #607D8B;
+	color: #FFFFFF;
+	display: flex;
+	justify-content: space-between;
+}
+
+header h1 {
+	display: inline;
+}
+
+header a:hover {
+	background: #78909c;
+}
+
+nav {
+	align-self: flex-end;
+	display: flex;
+	justify-content: flex-end;			
+}
+
+main {
+	padding-top: 1em;
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h1, a {
+	padding: 0.5em 1em;
+}
+
+.hidden {
+	display: none;
+}
+
