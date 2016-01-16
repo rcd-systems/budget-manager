@@ -1,7 +1,17 @@
 /* Removing default parameters */ 
 body, h1, p {
-	margin: 0;
+	margin: 0;	
 }
+
+select {
+    border: 0;
+    color : #455a64;    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
 
 html, body, main {
 	height: 100%;
@@ -12,12 +22,21 @@ html, body, main {
 	display: flex;	
 }
 
-.rcd-doc {
-	font-family: sans-serif;	
+.rcd-doc {		
 	flex-direction : column;
 	align-items: center;
-	color : #455a64;
 }
+
+.rcd-doc > * {	
+	color : #455a64;
+	font-family: sans-serif;
+}
+
+
+
+
+
+
 
 /* Header */
 .rcd-header {
