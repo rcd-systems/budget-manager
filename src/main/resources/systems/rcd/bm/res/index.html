@@ -59,24 +59,74 @@
 				</ul>		
 				 
 			</section>
-			<section id="bm-section-transfers" class="hidden">
-				Transfers
-				<table style="width:100%">
-                  <thead>
-                    <tr>
-                      <td>Date</td>
-                      <td>Type</td>
-                      <td>Amount</td>
-                      <td>Source Account</td>
-                      <td>Source Date</td>
-                      <td>Target Account</td>
-                      <td>Target Date</td>
-                      <td>Comments</td>
-                    </tr>
-                  </thead>
-                  <tbody id="bm-tbody-transfers">                      
-                  </tbody>
+			<section id="bm-section-transfers" class="bm-menu-display hidden">
+
+					<form>
+						<div>
+							<label>Year:</label>
+							<select id="bm-transfers-menu-combo-year" class="bm-transfers-menu-combo">
+							<option>2015</option>
+							<option>2014</option>
+							</select>
+						</div>						
+						<div>
+							<label>Month:</label>
+							<select id="bm-transfers-menu-combo-month" class="bm-transfers-menu-combo">
+			                  <option>All months</option>
+			                  <option>January</option>
+			                  <option>February</option>
+			                  <option>March</option>
+			                  <option>April</option>
+			                  <option>May</option>
+			                  <option>June</option>
+			                  <option>July</option>
+			                  <option>August</option>
+			                  <option>September</option>
+			                  <option>October</option>
+			                  <option>November</option>
+			                  <option>December</option>
+							</select>
+						</div>
+						<div>
+							<label>Type:</label>
+							<select>
+							<option>AA</option>
+							</select>
+						</div>
+						<div>
+							<label>From:</label>
+							<select>
+							<option>BB</option>
+							</select>
+						</div>
+						<div>
+							<label>To:</label>
+							<select>
+							<option>CC</option>
+							</select>
+						</div>
+					</form>
+
+				<div>
+					Transfers
+					<table>
+	                  <thead>
+	                    <tr>
+	                      <td>Date</td>
+	                      <td>Type</td>
+	                      <td>Amount</td>
+	                      <td>Source Account</td>
+	                      <td>Source Date</td>
+	                      <td>Target Account</td>
+	                      <td>Target Date</td>
+	                      <td>Comments</td>
+	                    </tr>
+	                  </thead>
+	                  <tbody id="bm-tbody-transfers">                      
+	                  </tbody>
                 </table>
+				</div>
+				
 			</section>
 			
 		</main>

@@ -4,7 +4,7 @@ body, h1, p {
 }
 
 select {
-    border: 0;
+    border: 1px solid #455a64;
     color : #455a64;    
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -18,7 +18,7 @@ html, body, main {
 }
 
 /* Containers */
-.rcd-doc, .rcd-header, .rcd-nav-bar, .rcd-button {
+.rcd-doc, .rcd-header, .rcd-nav-bar, .rcd-button, .bm-menu-display {
 	display: flex;	
 }
 
@@ -32,12 +32,6 @@ html, body, main {
 	font-family: sans-serif;
 }
 
-
-
-
-
-
-
 /* Header */
 .rcd-header {
 	width: 100%;
@@ -45,6 +39,7 @@ html, body, main {
 	color: #FFFFFF;
 	fill: #FFFFFF;
 	justify-content: space-between;
+	box-shadow: 0 10px 5px #607d8b;
 }
 
 .rcd-button {
@@ -71,8 +66,15 @@ html, body, main {
 /* Main part */
 main {
 	padding: 1em;
+	overflow: auto;
+}
+
+main, div, table {	
+	width: 100%;
+}
+
+#bm-section-home{
 	min-width: 800px;
-	overflow: auto
 }
 
 h1, a {
@@ -82,4 +84,5 @@ h1, a {
 .hidden {
 	display: none;
 }
+
 

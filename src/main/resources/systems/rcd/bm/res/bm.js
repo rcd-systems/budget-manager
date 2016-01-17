@@ -32,15 +32,17 @@ function refreshTransfersData(data) {
           .append('<td>' + (this.tgtDate ? this.tgtDate : '-') + '</td>')
           .append('<td>' + (this.comments ? this.comments : '-') + '</td>')
         .append('</tr>');
-    sum = sum + this.amount;
+    sum = sum + this.amount;    
+
+	displaySection("#bm-section-transfers");
   });  
 }
 
 function displaySectionTransfers() {
-	displaySection("#bm-section-transfers");
-	
+	var year = $('#bm-transfers-menu-combo-year').val();
+	var month = $('#bm-transfers-menu-combo-month').prop("selectedIndex");
 	$.ajax({
-		  url: "../json/transfer",
+		  url: "../json/transfer/" + year + (month == 0 ? "" : "/" + month),
 		  dataType: "json",
 		  success: refreshTransfersData
 		});
@@ -51,6 +53,10 @@ function displaySectionTransfers() {
 
 $("#bm-nav-button-transfers").click(function(){	
 	displaySectionTransfers();
+});
+
+$( ".bm-transfers-menu-combo" ).change(function() {
+	displaySectionTransfers(); //TODO Improve calls and functions design.
 });
 
 
