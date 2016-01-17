@@ -32,7 +32,7 @@ public class Main {
     }
 
     private static RcdJettyServer launchServer() throws Exception {
-        return RcdJettyService.createServer(0)
+        return RcdJettyService.createServer("localhost", 0)
                 .addResourceHandler("/res", Main.class.getResource("res"))
                 .addHandler("/json", new BmJsonInterfaceHandler())
                 .start();
