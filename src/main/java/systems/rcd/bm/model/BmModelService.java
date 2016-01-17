@@ -93,4 +93,21 @@ public class BmModelService implements RcdService, BmModelConstants {
                                 .getMonthValue())));
 
     }
+
+    // TODO Make BmModelService thread safe
+    public List<Transfer> findTransfers(final Integer year, final Integer month) {
+        if (year == null) {
+            return transfers;
+        }
+
+        final Map<Integer, List<Transfer>> map = transfersByDate.get(year);
+        if (month == null) {
+            return map.values()
+                    .stream()
+                    .flatMap(s -> s.stream())
+                    .collect(Collectors.toList());
+        }
+
+        return map.get(month);
+    }
 }

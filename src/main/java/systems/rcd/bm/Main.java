@@ -3,6 +3,7 @@ package systems.rcd.bm;
 import java.awt.Desktop;
 import java.io.IOException;
 
+import systems.rcd.bm.json.BmJsonInterfaceHandler;
 import systems.rcd.bm.model.BmModelService;
 import systems.rcd.fwk.core.ctx.RcdContext;
 import systems.rcd.fwk.core.log.RcdLogService;
@@ -33,6 +34,7 @@ public class Main {
     private static RcdJettyServer launchServer() throws Exception {
         return RcdJettyService.createServer(0)
                 .addResourceHandler("/res", Main.class.getResource("res"))
+                .addHandler("/json", new BmJsonInterfaceHandler())
                 .start();
     }
 
@@ -40,7 +42,7 @@ public class Main {
         if (Desktop.isDesktopSupported())
         {
             Desktop.getDesktop()
-            .browse(server.getUri());
+                    .browse(server.getUri());
         }
     }
 }
