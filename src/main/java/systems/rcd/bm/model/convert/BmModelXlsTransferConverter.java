@@ -49,7 +49,7 @@ public class BmModelXlsTransferConverter implements BmModelConstants {
     private Transfer convert(final RcdXlsRow xlsRow) {
         final String typeString = xlsRow.getString(TRANSFERS_TYPE_INDEX);
         final Instant dateInstant = xlsRow.getInstant(TRANSFERS_DATE_INDEX);
-        final double amount = xlsRow.getNumber(TRANSFERS_AMOUNT_INDEX);
+        final Number amount = xlsRow.getNumber(TRANSFERS_AMOUNT_INDEX);
         final String currencyString = xlsRow.getString(TRANSFERS_CURRENCY_INDEX);
         final String comments = xlsRow.getString(TRANSFERS_COMMENTS_INDEX);
         final String srcAccountString = xlsRow.getString(TRANSFERS_SRC_ACC_INDEX);
@@ -97,11 +97,11 @@ public class BmModelXlsTransferConverter implements BmModelConstants {
             return null;
         }
 
-        final Transfer transfer = new Transfer(type, toLocalDate(dateInstant), amount, currency);
+        final Transfer transfer = new Transfer(type, toLocalDate(dateInstant), amount.doubleValue(), currency);
         transfer.setSourceAccount(srcAccount)
-                .setSourceDate(toLocalDate(srcDateInstant))
-                .setTargetAccount(tgtAccount)
-                .setTargetDate(toLocalDate(tgtDateInstant));
+        .setSourceDate(toLocalDate(srcDateInstant))
+        .setTargetAccount(tgtAccount)
+        .setTargetDate(toLocalDate(tgtDateInstant));
 
         return transfer;
     }
