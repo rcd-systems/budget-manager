@@ -17,13 +17,21 @@ function displaySection(selector) {
 function displaySectionTransfers() {
 	displaySection("#bm-section-transfers");
 	
+//	$.ajax({
+//	  url: "test.html",
+//	  dataType: "html",
+//	  success: (data) => {
+//		  $("#bm-section-transfers").html(data);
+//	  }
+//	});
+	
 	$.ajax({
-	  url: "test.html",
-	  dataType: "html",
-	  success: (data) => {
-		  $("#bm-section-transfers").html(data);
-	  }
-	});
+		  url: "../json/transfer",
+		  dataType: "json",
+		  success: (data) => {
+			  $("#bm-section-transfers").html(JSON.stringify(data, null, 2));
+		  }
+		});
 }
 
 

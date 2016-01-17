@@ -64,4 +64,9 @@ public class Account {
         }
         return isChildOf(account);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

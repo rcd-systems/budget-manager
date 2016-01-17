@@ -64,4 +64,9 @@ public class Type {
         }
         return isChildOf(type);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
