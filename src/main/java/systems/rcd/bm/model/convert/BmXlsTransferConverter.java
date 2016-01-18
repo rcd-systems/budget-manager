@@ -18,7 +18,7 @@ import systems.rcd.fwk.core.format.xls.data.RcdXlsRow;
 import systems.rcd.fwk.core.format.xls.data.RcdXlsSheet;
 import systems.rcd.fwk.core.log.RcdLogService;
 
-public class BmModelXlsTransferConverter implements BmModelConstants {
+public class BmXlsTransferConverter implements BmModelConstants {
     private Map<String, Type> typeMap;
     private Map<String, Account> accountMap;
 
@@ -28,12 +28,12 @@ public class BmModelXlsTransferConverter implements BmModelConstants {
         return errors;
     }
 
-    public BmModelXlsTransferConverter typeMap(final Map<String, Type> typeMap) {
+    public BmXlsTransferConverter typeMap(final Map<String, Type> typeMap) {
         this.typeMap = typeMap;
         return this;
     }
 
-    public BmModelXlsTransferConverter accountMap(final Map<String, Account> accountMap) {
+    public BmXlsTransferConverter accountMap(final Map<String, Account> accountMap) {
         this.accountMap = accountMap;
         return this;
     }

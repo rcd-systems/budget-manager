@@ -9,7 +9,7 @@ import systems.rcd.bm.model.data.Type;
 import systems.rcd.fwk.core.format.xls.data.RcdXlsRow;
 import systems.rcd.fwk.core.format.xls.data.RcdXlsSheet;
 
-public class BmModelXlsTypeConverter {
+public class BmXlsTypeConverter {
     Map<String, Type> typeMap = new HashMap<>();
 
     public Map<String, Type> convert(final RcdXlsSheet rcdXlsSheet) {

@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import systems.rcd.bm.exc.BmException;
-import systems.rcd.bm.model.convert.BmModelXlsAccountConverter;
-import systems.rcd.bm.model.convert.BmModelXlsTransferConverter;
-import systems.rcd.bm.model.convert.BmModelXlsTypeConverter;
+import systems.rcd.bm.model.convert.BmXlsAccountConverter;
+import systems.rcd.bm.model.convert.BmXlsTransferConverter;
+import systems.rcd.bm.model.convert.BmXlsTypeConverter;
 import systems.rcd.bm.model.data.Account;
 import systems.rcd.bm.model.data.Transfer;
 import systems.rcd.bm.model.data.Type;
@@ -49,9 +49,9 @@ public class BmModelService implements RcdService, BmModelConstants {
     }
 
     private void load(final RcdXlsWorkbook workbook) throws BmException {
-        accountMap = new BmModelXlsAccountConverter().convert(workbook.get(ACCOUNTS_SHEET_NAME));
-        typeMap = new BmModelXlsTypeConverter().convert(workbook.get(TYPES_SHEET_NAME));
-        final BmModelXlsTransferConverter transferConverter = new BmModelXlsTransferConverter().accountMap(accountMap)
+        accountMap = new BmXlsAccountConverter().convert(workbook.get(ACCOUNTS_SHEET_NAME));
+        typeMap = new BmXlsTypeConverter().convert(workbook.get(TYPES_SHEET_NAME));
+        final BmXlsTransferConverter transferConverter = new BmXlsTransferConverter().accountMap(accountMap)
                 .typeMap(typeMap);
         transfers = transferConverter.convert(workbook.get(TRANSFERS_SHEET_NAME));
 
