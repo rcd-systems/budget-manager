@@ -16,19 +16,19 @@
           </svg>
           <span>Transfers</span>
         </a>
-        <a class="bm-button">
+        <a class="bm-button"  id="bm-nav-budget">
           <svg style="width:24px;height:24px" viewBox="0 0 24 24">
             <path d="M18,22A2,2 0 0,0 20,20V4C20,2.89 19.1,2 18,2H12V9L9.5,7.5L7,9V2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18Z" />
           </svg>
           <span>Budget</span>
         </a>
-        <a class="bm-button">
+        <a class="bm-button"  id="bm-nav-accounts">
           <svg style="width:24px;height:24px" viewBox="0 0 24 24">
             <path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.75L5.46,19H22V21H2V3H4V17.54L9.5,8L16,11.78Z" />
           </svg>
           <span>Accounts</span>
         </a>
-        <a class="bm-button">
+        <a class="bm-button"  id="bm-nav-save">
           <svg style="width:24px;height:24px" viewBox="0 0 24 24">
             <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
           </svg>
@@ -65,14 +65,12 @@
           <form>
             <div>
               <label>Year:</label>
-              <select id="bm-combo-year" class="bm-combo">
-                <option>2015</option>
-                <option>2014</option>
+              <select id="bm-combo-year" class="bm-menu-combo">
               </select>
             </div>            
             <div>
               <label>Month:</label>
-              <select id="bm-combo-month" class="bm-combo">
+              <select id="bm-combo-month" class="bm-menu-combo">
                 <option>All months</option>
                 <option>January</option>
                 <option>February</option>
@@ -90,8 +88,13 @@
             </div>
             <div>
               <label>Type:</label>
+              <select id="bm-combo-type" class="bm-menu-combo">
+              </select>
+            </div>
+            <div>
+              <label>Account:</label>
               <select>
-                <option>AA</option>
+                <option>BB</option>
               </select>
             </div>
             <div>
@@ -124,6 +127,25 @@
               </tr>
             </thead>
             <tbody id="bm-transfers-tbody">            
+            </tbody>
+          </table>
+        </div>
+        <div id="bm-accounts-details" class="bm-details hidden">
+          <h2 class="bm-details-title">Incoming transfers</h2>
+          <table>
+            <thead>
+              <tr>
+                <td>Date</td>
+                <td>Type</td>
+                <td>Amount</td>
+                <td>Source Account</td>
+                <td>Source Date</td>
+                <td>Target Account</td>
+                <td>Target Date</td>
+                <td>Comments</td>
+              </tr>
+            </thead>
+            <tbody id="bm-accounts-tbody">            
             </tbody>
           </table>
         </div>        

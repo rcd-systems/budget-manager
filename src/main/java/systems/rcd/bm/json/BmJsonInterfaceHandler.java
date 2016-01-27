@@ -38,15 +38,21 @@ public class BmJsonInterfaceHandler implements RcdJettyHandler {
         } else if (target.startsWith("/years")) {
             final RcdJsonArray jsonArray = RcdJsonService.createJsonArray();
             RcdContext.getService(BmModelService.class)
-                    .findYears()
-                    .forEach(jsonArray::add);
+            .findYears()
+            .forEach(jsonArray::add);
+            jsonResponse = jsonArray;
+        } else if (target.startsWith("/types")) {
+            final RcdJsonArray jsonArray = RcdJsonService.createJsonArray();
+            RcdContext.getService(BmModelService.class)
+            .findTypeNames()
+            .forEach(jsonArray::add);
             jsonResponse = jsonArray;
         }
 
         if (jsonResponse != null) {
             response.setContentType("application/json; charset=utf-8");
             response.getWriter()
-            .println(RcdJsonService.toJson(jsonResponse));
+                    .println(RcdJsonService.toJson(jsonResponse));
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

@@ -115,4 +115,8 @@ public class BmModelService implements RcdService, BmModelConstants {
     public Set<Integer> findYears() {
         return transfersByDate.keySet();
     }
+
+    public Set<String> findTypeNames() {
+        return typeMap.keySet();
+    }
 }
