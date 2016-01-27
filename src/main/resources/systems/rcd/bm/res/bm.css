@@ -81,12 +81,13 @@ h1, a , label{
   flex-basis:100%;
 }
 
-#bm-menu {
-  flex-basis: 20%;
-}
 
 .bm-details {
-  flex-basis: 80%;
+  flex-grow: 2;
+}
+
+table {
+  width: 100%;
 }
 
 #bm-menu, .bm-details {  
