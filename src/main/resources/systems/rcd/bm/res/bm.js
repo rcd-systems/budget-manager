@@ -1,5 +1,3 @@
-var currentSectionSelector = "#bm-section-home";
-
 function display(selector) {
     $(selector).removeClass("hidden");
 }
@@ -8,12 +6,10 @@ function hide(selector) {
     $(selector).addClass("hidden");
 }
 
-function displaySection(selector) {
-    if (currentSectionSelector != selector) {
-        hide(currentSectionSelector);
-        display(selector);
-        currentSectionSelector = selector;
-    }    
+function displayDetails(selector) {
+  hide("#bm-home")
+  display(selector); 
+  display("#bm-main-interface");  
 }
 
 function refreshYearsCombobox(data) {
@@ -22,9 +18,9 @@ function refreshYearsCombobox(data) {
         $.each( data, function() {
             yearsComboboxHtml += '<option>' + this + '</option>';
         });
-        $('#bm-transfers-menu-combo-year').html(yearsComboboxHtml);            
+        $('#bm-combo-year').html(yearsComboboxHtml);            
     }
-
+    
     return $.ajax({
         url: "../json/years",
         dataType: "json",
@@ -47,11 +43,11 @@ function refreshTransfersTable() {
                 bmTbodytransfer += '<td>' + (this.comments ? this.comments : '-') + '</td>';
                 bmTbodytransfer += '</tr>';    
         }); 
-        $('#bm-tbody-transfers').html(bmTbodytransfer);
+        $('#bm-transfers-tbody').html(bmTbodytransfer);
     }
 
-    var year = $('#bm-transfers-menu-combo-year').val();
-    var month = $('#bm-transfers-menu-combo-month').prop("selectedIndex");
+    var year = $('#bm-combo-year').val();
+    var month = $('#bm-combo-month').prop("selectedIndex");
     $.ajax({
         url: "../json/transfers/" + year + (month == 0 ? "" : "/" + month),
         dataType: "json",
@@ -59,11 +55,11 @@ function refreshTransfersTable() {
     });
 }
 
-$("#bm-nav-button-transfers").click(function(){    
-    displaySection("#bm-section-transfers");
+$("#bm-nav-transfers").click(function(){
+    displayDetails("#bm-transfers-details");
 });
 
-$( ".bm-transfers-menu-combo" ).change(function() {
+$( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();
 });
 

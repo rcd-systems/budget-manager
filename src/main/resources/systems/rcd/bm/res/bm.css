@@ -1,88 +1,106 @@
 /* Removing default parameters */ 
 body, h1, p {
-	margin: 0;	
+  margin: 0;    
 }
 
 select {
-    border: 1px solid #455a64;
-    color : #455a64;    
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
+  border: 1px solid #455a64;
+  color : #455a64;    
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
 }
 
-
-html, body, main {
-	height: 100%;
+/* Text padding */
+h1, a , label{
+  padding: 0.5em 1em;
 }
 
-/* Containers */
-.rcd-doc, .rcd-header, .rcd-nav-bar, .rcd-button, .bm-menu-display {
-	display: flex;	
+/* Flex containers */
+.bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details {
+  display: flex;    
 }
 
-.rcd-doc {		
-	flex-direction : column;
-	align-items: center;
+*/* Vertical flex containers */
+.bm-body, .bm-details {        
+  flex-direction : column;
 }
 
-.rcd-doc > * {	
-	color : #455a64;
-	font-family: sans-serif;
+/* Common parameters */
+.bm-body > * {    
+  color : #455a64;
+  font-family: sans-serif;
+}
+
+/* Background */ 
+.bm-header, #bm-menu {  
+  background : #607d8b;
+  color: #FFFFFF;
+  fill: #FFFFFF;
 }
 
 /* Header */
-.rcd-header {
-	width: 100%;
-	background : #607d8b;
-	color: #FFFFFF;
-	fill: #FFFFFF;
-	justify-content: space-between;
-	box-shadow: 0 10px 5px #607d8b;
+.bm-header {
+  width: 100%;
+  justify-content: space-between;
 }
 
-.rcd-button {
-	flex-grow: 2;
-	justify-content: center;
-	border-radius: 4px;
-	cursor: pointer;	
+/* Buttons */
+.bm-button {
+  cursor: pointer;    
 }
 
-.rcd-button span {
-	margin : 0 0.5em;	
+.bm-button span {
+  margin : 0 0.5em;    
 }
 
-.rcd-button:hover {
-	background: #78909c;
+.bm-button:hover {
+  color : #455a64;
+  fill : #455a64;
 }
 
-.rcd-nav-bar {
-	align-self: flex-end;
-	justify-content: flex-end;	
-	min-width: 600px;
+.bm-nav {
+  align-self: flex-end;
+  justify-content: space-between;    
+  min-width: 600px;
 }
 
 /* Main part */
-main {
-	padding: 1em;
-	overflow: auto;
+
+#bm-home, .bm-details {  
+  overflow: auto;
 }
 
-main, div, table {	
-	width: 100%;
+#bm-home{
+  width: 800px;
+  margin: auto;    
 }
 
-#bm-section-home{
-	min-width: 800px;
+#bm-main-interface {
+  flex-basis:100%;
 }
 
-h1, a {
-	padding: 0.5em 1em;
+#bm-menu {
+  flex-basis: 20%;
+}
+
+.bm-details {
+  flex-basis: 80%;
+}
+
+#bm-menu, .bm-details {  
+  padding : 1em;
+}
+
+
+
+.bm-details-title {
+  align-self: center;
 }
 
 .hidden {
-	display: none;
+  display: none !important;
 }
 
 
