@@ -1,63 +1,76 @@
 var currentSectionSelector = "#bm-section-home";
 
 function display(selector) {
-	$(selector).removeClass("hidden");
+    $(selector).removeClass("hidden");
 }
 
 function hide(selector) {
-	$(selector).addClass("hidden");
+    $(selector).addClass("hidden");
 }
 
 function displaySection(selector) {
-	hide(currentSectionSelector);
-	display(selector);
-	currentSectionSelector = selector;
+    if (currentSectionSelector != selector) {
+        hide(currentSectionSelector);
+        display(selector);
+        currentSectionSelector = selector;
+    }    
 }
 
-function refreshTransfersData(data) {
-  // Clears the transfers table
-  $('#bm-tbody-transfers').html("")
-  
-  // Fills the transfers table
-  var sum = 0;
-  $.each( data, function() {
-    $('#bm-tbody-transfers')
-        .append('<tr>')
-          .append('<td>' + this.date + '</td>')
-          .append('<td>' + this.type + '</td>')
-          .append('<td>' + this.amount + ' ' + this.currency + '</td>')
-          .append('<td>' + (this.srcAccount ? this.srcAccount : '-') + '</td>')
-          .append('<td>' + (this.srcDate ? this.srcDate : '-') + '</td>')
-          .append('<td>' + (this.tgtAccount ? this.tgtAccount : '-') + '</td>')
-          .append('<td>' + (this.tgtDate ? this.tgtDate : '-') + '</td>')
-          .append('<td>' + (this.comments ? this.comments : '-') + '</td>')
-        .append('</tr>');
-    sum = sum + this.amount;    
+function refreshYearsCombobox(data) {
+    var callback = function (data) {
+        var yearsComboboxHtml = "";
+        $.each( data, function() {
+            yearsComboboxHtml += '<option>' + this + '</option>';
+        });
+        $('#bm-transfers-menu-combo-year').html(yearsComboboxHtml);            
+    }
 
-	displaySection("#bm-section-transfers");
-  });  
+    return $.ajax({
+        url: "../json/years",
+        dataType: "json",
+        success: callback
+    });
 }
 
-function displaySectionTransfers() {
-	var year = $('#bm-transfers-menu-combo-year').val();
-	var month = $('#bm-transfers-menu-combo-month').prop("selectedIndex");
-	$.ajax({
-		  url: "../json/transfer/" + year + (month == 0 ? "" : "/" + month),
-		  dataType: "json",
-		  success: refreshTransfersData
-		});
+function refreshTransfersTable() {
+    var callback = function (data) {
+        var bmTbodytransfer = "";
+        $.each( data, function() {
+            bmTbodytransfer += '<tr>';
+            bmTbodytransfer += '<td>' + this.date + '</td>';
+            bmTbodytransfer += '<td>' + this.type + '</td>';
+            bmTbodytransfer += '<td>' + this.amount + ' ' + this.currency + '</td>';
+                bmTbodytransfer += '<td>' + (this.srcAccount ? this.srcAccount : '-') + '</td>';
+                bmTbodytransfer += '<td>' + (this.srcDate ? this.srcDate : '-') + '</td>';
+                bmTbodytransfer += '<td>' + (this.tgtAccount ? this.tgtAccount : '-') + '</td>';
+                bmTbodytransfer += '<td>' + (this.tgtDate ? this.tgtDate : '-') + '</td>';
+                bmTbodytransfer += '<td>' + (this.comments ? this.comments : '-') + '</td>';
+                bmTbodytransfer += '</tr>';    
+        }); 
+        $('#bm-tbody-transfers').html(bmTbodytransfer);
+    }
+
+    var year = $('#bm-transfers-menu-combo-year').val();
+    var month = $('#bm-transfers-menu-combo-month').prop("selectedIndex");
+    $.ajax({
+        url: "../json/transfers/" + year + (month == 0 ? "" : "/" + month),
+        dataType: "json",
+        success: callback
+    });
 }
 
-
-
-
-$("#bm-nav-button-transfers").click(function(){	
-	displaySectionTransfers();
+$("#bm-nav-button-transfers").click(function(){    
+    displaySection("#bm-section-transfers");
 });
 
 $( ".bm-transfers-menu-combo" ).change(function() {
-	displaySectionTransfers(); //TODO Improve calls and functions design.
+    refreshTransfersTable();
 });
+
+refreshYearsCombobox().done(function() {
+    refreshTransfersTable();
+});
+
 
 
 

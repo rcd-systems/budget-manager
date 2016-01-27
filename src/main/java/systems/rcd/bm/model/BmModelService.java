@@ -2,6 +2,7 @@ package systems.rcd.bm.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import systems.rcd.bm.exc.BmException;
@@ -78,19 +79,19 @@ public class BmModelService implements RcdService, BmModelConstants {
         transfersByDate = transfers.stream()
                 .collect(Collectors.groupingBy(transfer -> transfer.getDate()
                         .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getDate()
-                                .getMonthValue())));
+                        .getMonthValue())));
 
         transfersBySourceDate = transfers.stream()
                 .filter(transfer -> transfer.getSourceDate() != null)
                 .collect(Collectors.groupingBy(transfer -> transfer.getSourceDate()
                         .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getSourceDate()
-                                .getMonthValue())));
+                        .getMonthValue())));
 
         transfersByTargetDate = transfers.stream()
                 .filter(transfer -> transfer.getTargetDate() != null)
                 .collect(Collectors.groupingBy(transfer -> transfer.getTargetDate()
                         .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getTargetDate()
-                                .getMonthValue())));
+                        .getMonthValue())));
 
     }
 
@@ -109,5 +110,9 @@ public class BmModelService implements RcdService, BmModelConstants {
         }
 
         return map.get(month);
+    }
+
+    public Set<Integer> findYears() {
+        return transfersByDate.keySet();
     }
 }
