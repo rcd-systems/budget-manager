@@ -3,6 +3,7 @@ package systems.rcd.bm;
 import java.awt.Desktop;
 import java.io.IOException;
 
+import systems.rcd.bm.json.BmAccountsJsonInterfaceHandler;
 import systems.rcd.bm.json.BmTransfersJsonInterfaceHandler;
 import systems.rcd.bm.json.BmTypesJsonInterfaceHandler;
 import systems.rcd.bm.json.BmYearsJsonInterfaceHandler;
@@ -39,6 +40,7 @@ public class Main {
                 .addHandler("/json/transfers", new BmTransfersJsonInterfaceHandler())
                 .addHandler("/json/years", new BmYearsJsonInterfaceHandler())
                 .addHandler("/json/types", new BmTypesJsonInterfaceHandler())
+                .addHandler("/json/accounts", new BmAccountsJsonInterfaceHandler())
                 .start();
     }
 

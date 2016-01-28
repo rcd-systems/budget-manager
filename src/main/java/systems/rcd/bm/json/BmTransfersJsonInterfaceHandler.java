@@ -26,12 +26,16 @@ public class BmTransfersJsonInterfaceHandler implements RcdJettyHandler {
         final Integer month = request.getParameter("month") == null ? null
                 : Integer.parseInt(request.getParameter("month"));
         final String type = request.getParameter("type");
+        final String fromAccount = request.getParameter("fromAccount");
+        final String toAccount = request.getParameter("toAccount");
 
         final List<Transfer> transfers = RcdContext.getService(BmModelService.class)
                 .findTransfers(year, month)
                 .stream()
                 .filter(transfer -> type == null || transfer.getType()
                         .isOrChildOf(type))
+                .filter(transfer -> fromAccount == null || transfer.getSourceAccount()
+                        .isOrChildOf(fromAccount))
                 .collect(Collectors.toList());
         final RcdJsonArray jsonResponse = new BmTransferJsonConverter().convert(transfers);
 

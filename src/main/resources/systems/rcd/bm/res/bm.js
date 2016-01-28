@@ -19,7 +19,8 @@ function refreshYearsCombobox() {
       $.each( data, function() {
           yearsComboboxHtml += '<option>' + this + '</option>';
       });
-      $('#bm-combo-year').html(yearsComboboxHtml);            
+      $('#bm-combo-year').html(yearsComboboxHtml);
+      $('#bm-combo-year option:last').prop('selected', true);
   }
   
   return $.ajax({
@@ -40,6 +41,24 @@ function refreshTypesCombobox() {
     
     return $.ajax({
         url: "../json/types",
+        dataType: "json",
+        success: callback
+    });
+}
+
+function refreshAccountsComboboxes() {
+  var callback = function (data) {
+        var accountComboboxHtml = '<option>All account</option>';
+        $.each( data, function() {
+            accountComboboxHtml += '<option>' + this + '</option>';
+        });
+        $('#bm-combo-account').html(accountComboboxHtml);   
+        $('#bm-combo-account-from').html(accountComboboxHtml);
+        $('#bm-combo-account-to').html(accountComboboxHtml);
+    }
+    
+    return $.ajax({
+        url: "../json/accounts",
         dataType: "json",
         success: callback
     });
@@ -67,12 +86,21 @@ function refreshTransfersTable() {
     var month = $('#bm-combo-month').prop("selectedIndex");
     var allTypes = $('#bm-combo-type').prop("selectedIndex") == 0;
     var type = $('#bm-combo-type').val();
+    var allAccounts = $('#bm-combo-account').prop("selectedIndex") == 0;
+    var account = $('#bm-combo-account').val();
+    var fromAllAccounts = $('#bm-combo-account-from').prop("selectedIndex") == 0;
+    var fromAccount = $('#bm-combo-account-from').val();
+    var toAllAccounts = $('#bm-combo-account-to').prop("selectedIndex") == 0;
+    var toAccount = $('#bm-combo-account-to').val();
     $.ajax({
         url: "../json/transfers/" + year + (month == 0 ? "" : "/" + month),
         data: {
           year: year,
           month: month == 0 ? undefined : month,
-          type: allTypes ? undefined : type
+          type: allTypes ? undefined : type,
+          account: allAccounts ? undefined : account,
+          fromAccount: fromAllAccounts ? undefined : fromAccount,
+          toAccount: toAllAccounts ? undefined : toAccount,
         },
         dataType: "json",
         success: callback
@@ -86,7 +114,7 @@ $( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();
 });
 
-$.when( refreshYearsCombobox(), refreshTypesCombobox() ).done(() => refreshTransfersTable());
+$.when( refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes() ).done(() => refreshTransfersTable());
 
 
 

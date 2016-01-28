@@ -45,21 +45,22 @@ public class Account {
         return false;
     }
 
-    public boolean isChildOf(final Account account) {
+    public boolean isChildOf(final String account) {
         if (this.parent == null) {
             return account == null;
         }
         if (account == null) {
             return false;
         }
-        if (this.parent.equals(account)) {
+        if (this.parent.getName()
+                .equals(account)) {
             return true;
         }
         return this.parent.isChildOf(account);
     }
 
-    public boolean isOrChildOf(final Account account) {
-        if (equals(account)) {
+    public boolean isOrChildOf(final String account) {
+        if (getName().equals(account)) {
             return true;
         }
         return isChildOf(account);

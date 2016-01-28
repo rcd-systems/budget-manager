@@ -119,4 +119,8 @@ public class BmModelService implements RcdService, BmModelConstants {
     public Set<String> findTypeNames() {
         return typeMap.keySet();
     }
+
+    public Set<String> findAccountNames() {
+        return accountMap.keySet();
+    }
 }

@@ -11,7 +11,7 @@ import systems.rcd.fwk.core.format.json.RcdJsonService;
 import systems.rcd.fwk.core.format.json.data.RcdJsonArray;
 import systems.rcd.fwk.jetty.impl.data.RcdJettyHandler;
 
-public class BmYearsJsonInterfaceHandler implements RcdJettyHandler {
+public class BmAccountsJsonInterfaceHandler implements RcdJettyHandler {
 
     @Override
     public void handle(final String target, final HttpServletRequest request, final HttpServletResponse response)
@@ -19,13 +19,13 @@ public class BmYearsJsonInterfaceHandler implements RcdJettyHandler {
 
         final RcdJsonArray jsonArray = RcdJsonService.createJsonArray();
         RcdContext.getService(BmModelService.class)
-                .findYears()
+                .findAccountNames()
                 .forEach(jsonArray::add);
 
         if (jsonArray != null) {
             response.setContentType("application/json; charset=utf-8");
             response.getWriter()
-                    .println(RcdJsonService.toJson(jsonArray));
+            .println(RcdJsonService.toJson(jsonArray));
         }
     }
 }
