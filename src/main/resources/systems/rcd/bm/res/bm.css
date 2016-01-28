@@ -18,7 +18,7 @@ h1, a , label{
 }
 
 /* Flex containers */
-.bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details {
+.bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details, .rcd-row{
   display: flex;    
 }
 
@@ -30,7 +30,7 @@ h1, a , label{
 /* Common parameters */
 .bm-body > * {    
   color : #455a64;
-  font-family: sans-serif;
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
 /* Background */ 
@@ -86,22 +86,23 @@ h1, a , label{
   flex-grow: 2;
 }
 
-table {
-  width: 100%;
-}
-
 #bm-menu, .bm-details {  
   padding : 1em;
 }
-
-
 
 .bm-details-title {
   align-self: center;
 }
 
-.hidden {
-  display: none !important;
+.bm-col-date {
+  flex: 0 0 8em;
+}
+
+.bm-col-type, .bm-col-account, .bm-col-amount {
+  flex: 0 0 9em;
 }
 
 
+.hidden {
+  display: none !important;
+}

@@ -49,16 +49,16 @@ function refreshTransfersTable() {
     var callback = function (data) {
         var bmTbodytransfer = "";
         $.each( data, function() {
-            bmTbodytransfer += '<tr>';
-            bmTbodytransfer += '<td>' + this.date + '</td>';
-            bmTbodytransfer += '<td>' + this.type + '</td>';
-            bmTbodytransfer += '<td>' + this.amount + ' ' + this.currency + '</td>';
-                bmTbodytransfer += '<td>' + (this.srcAccount ? this.srcAccount : '-') + '</td>';
-                bmTbodytransfer += '<td>' + (this.srcDate ? this.srcDate : '-') + '</td>';
-                bmTbodytransfer += '<td>' + (this.tgtAccount ? this.tgtAccount : '-') + '</td>';
-                bmTbodytransfer += '<td>' + (this.tgtDate ? this.tgtDate : '-') + '</td>';
-                bmTbodytransfer += '<td>' + (this.comments ? this.comments : '-') + '</td>';
-                bmTbodytransfer += '</tr>';    
+            bmTbodytransfer += '<div class="rcd-row">';
+            bmTbodytransfer += '<span class="bm-col-date">' + this.date + '</span>';
+            bmTbodytransfer += '<span class="bm-col-type">' + this.type + '</span>';
+            bmTbodytransfer += '<span class="bm-col-amount">' + this.amount + ' ' + this.currency + '</span>';
+                bmTbodytransfer += '<span class="bm-col-account">' + (this.srcAccount ? this.srcAccount : '-') + '</span>';
+                bmTbodytransfer += '<span class="bm-col-date">' + (this.srcDate ? this.srcDate : '-') + '</span>';
+                bmTbodytransfer += '<span class="bm-col-account">' + (this.tgtAccount ? this.tgtAccount : '-') + '</span>';
+                bmTbodytransfer += '<span class="bm-col-date">' + (this.tgtDate ? this.tgtDate : '-') + '</span>';
+                bmTbodytransfer += '<span class="bm-col-comments">' + (this.comments ? this.comments : '-') + '</span>';
+                bmTbodytransfer += '</div>';    
         }); 
         $('#bm-transfers-tbody').html(bmTbodytransfer);
     }
