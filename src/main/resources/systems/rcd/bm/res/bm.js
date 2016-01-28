@@ -31,7 +31,7 @@ function refreshYearsCombobox() {
 
 function refreshTypesCombobox() {
   var callback = function (data) {
-        var typesComboboxHtml = "";
+        var typesComboboxHtml = '<option>All types</option>';
         $.each( data, function() {
             typesComboboxHtml += '<option>' + this + '</option>';
         });
@@ -65,10 +65,15 @@ function refreshTransfersTable() {
 
     var year = $('#bm-combo-year').val();
     var month = $('#bm-combo-month').prop("selectedIndex");
+    var allTypes = $('#bm-combo-type').prop("selectedIndex") == 0;
     var type = $('#bm-combo-type').val();
     $.ajax({
         url: "../json/transfers/" + year + (month == 0 ? "" : "/" + month),
-        data: {type:type},
+        data: {
+          year: year,
+          month: month == 0 ? undefined : month,
+          type: allTypes ? undefined : type
+        },
         dataType: "json",
         success: callback
     });

@@ -45,21 +45,22 @@ public class Type {
         return false;
     }
 
-    public boolean isChildOf(final Type type) {
+    public boolean isChildOf(final String type) {
         if (this.parent == null) {
             return type == null;
         }
         if (type == null) {
             return false;
         }
-        if (this.parent.equals(type)) {
+        if (this.parent.getName()
+                .equals(type)) {
             return true;
         }
         return this.parent.isChildOf(type);
     }
 
-    public boolean isOrChildOf(final Type type) {
-        if (equals(type)) {
+    public boolean isOrChildOf(final String type) {
+        if (getName().equals(type)) {
             return true;
         }
         return isChildOf(type);
