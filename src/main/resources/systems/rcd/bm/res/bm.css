@@ -48,7 +48,8 @@ h1, a , label{
 
 /* Buttons */
 .bm-button {
-  cursor: pointer;    
+  cursor: pointer;   
+  align-items: center;
 }
 
 .bm-button span {

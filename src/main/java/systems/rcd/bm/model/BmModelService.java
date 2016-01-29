@@ -2,6 +2,7 @@ package systems.rcd.bm.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,8 @@ public class BmModelService implements RcdService, BmModelConstants {
         accountMap = new BmXlsAccountConverter().convert(workbook.get(ACCOUNTS_SHEET_NAME));
         typeMap = new BmXlsTypeConverter().convert(workbook.get(TYPES_SHEET_NAME));
         final BmXlsTransferConverter transferConverter = new BmXlsTransferConverter().accountMap(accountMap)
-                .typeMap(typeMap);
+                .typeMap(
+                        typeMap);
         transfers = transferConverter.convert(workbook.get(TRANSFERS_SHEET_NAME));
 
         final List<String> errors = transferConverter.getErrors();
@@ -69,7 +71,8 @@ public class BmModelService implements RcdService, BmModelConstants {
         rootAccounts = accountMap.values()
                 .stream()
                 .filter(account -> account.getParent() == null)
-                .collect(Collectors.toList());
+                .collect(
+                        Collectors.toList());
 
         rootTypes = typeMap.values()
                 .stream()
@@ -77,29 +80,32 @@ public class BmModelService implements RcdService, BmModelConstants {
                 .collect(Collectors.toList());
 
         transfersByDate = transfers.stream()
-                .collect(Collectors.groupingBy(transfer -> transfer.getDate()
-                        .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getDate()
-                        .getMonthValue())));
+                .collect(
+                        Collectors.groupingBy(transfer -> transfer.getDate()
+                                .getYear(),
+                                Collectors.groupingBy(transfer -> ((Transfer) transfer).getDate()
+                                        .getMonthValue())));
 
         transfersBySourceDate = transfers.stream()
                 .filter(transfer -> transfer.getSourceDate() != null)
-                .collect(Collectors.groupingBy(transfer -> transfer.getSourceDate()
-                        .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getSourceDate()
-                        .getMonthValue())));
+                .collect(
+                        Collectors.groupingBy(transfer -> transfer.getSourceDate()
+                                .getYear(),
+                                Collectors.groupingBy(transfer -> ((Transfer) transfer).getSourceDate()
+                                        .getMonthValue())));
 
         transfersByTargetDate = transfers.stream()
                 .filter(transfer -> transfer.getTargetDate() != null)
-                .collect(Collectors.groupingBy(transfer -> transfer.getTargetDate()
-                        .getYear(), Collectors.groupingBy(transfer -> ((Transfer) transfer).getTargetDate()
-                        .getMonthValue())));
+                .collect(
+                        Collectors.groupingBy(transfer -> transfer.getTargetDate()
+                                .getYear(),
+                                Collectors.groupingBy(transfer -> ((Transfer) transfer).getTargetDate()
+                                        .getMonthValue())));
 
     }
 
     // TODO Make BmModelService thread safe
     public List<Transfer> findTransfers(final Integer year, final Integer month) {
-        if (year == null) {
-            return transfers;
-        }
 
         final Map<Integer, List<Transfer>> map = transfersByDate.get(year);
         if (month == null) {
@@ -122,5 +128,81 @@ public class BmModelService implements RcdService, BmModelConstants {
 
     public Set<String> findAccountNames() {
         return accountMap.keySet();
+    }
+
+    public double findInitialAmount(final Integer year, final Integer month, final String account) {
+        double initialAmount = 0d;
+
+        for (final Entry<Integer, Map<Integer, List<Transfer>>> transfersByYearEntry : transfersBySourceDate.entrySet()) {
+            if (transfersByYearEntry.getKey() <= year) {
+                initialAmount -= transfersByYearEntry.getValue()
+                        .entrySet()
+                        .stream()
+                        .filter(
+                                transfersByMonthEntry -> transfersByYearEntry.getKey() < year
+                                || month != null && transfersByMonthEntry.getKey() < month)
+                                .flatMap(
+                                        transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        .stream())
+                                        .filter(
+                                                transfer -> transfer.getSourceAccount()
+                                                .isOrChildOf(account))
+                                                .mapToDouble(Transfer::getAmount)
+                                                .sum();
+            }
+        }
+
+        for (final Entry<Integer, Map<Integer, List<Transfer>>> transfersByYearEntry : transfersByTargetDate.entrySet()) {
+            if (transfersByYearEntry.getKey() <= year) {
+                initialAmount += transfersByYearEntry.getValue()
+                        .entrySet()
+                        .stream()
+                        .filter(
+                                transfersByMonthEntry -> transfersByYearEntry.getKey() < year
+                                || month != null && transfersByMonthEntry.getKey() < month)
+                                .flatMap(
+                                        transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        .stream())
+                                        .filter(
+                                                transfer -> transfer.getTargetAccount()
+                                                .isOrChildOf(account))
+                                                .mapToDouble(Transfer::getAmount)
+                                                .sum();
+            }
+        }
+
+        return initialAmount;
+    }
+
+    public double[] findDeltas(final Integer year, final Integer month, final String account) {
+        if (month == null) {
+            final double[] deltas = new double[12];
+            if (transfersBySourceDate.containsKey(year)) {
+                for (final Entry<Integer, List<Transfer>> transferByMonth : transfersBySourceDate.get(year)
+                        .entrySet()) {
+                    deltas[transferByMonth.getKey() - 1] -= transferByMonth.getValue()
+                            .stream()
+                            .filter(transfer -> transfer.getSourceAccount()
+                                    .isOrChildOf(account))
+                            .mapToDouble(Transfer::getAmount)
+                            .sum();
+                }
+            }
+
+            if (transfersByTargetDate.containsKey(year)) {
+                for (final Entry<Integer, List<Transfer>> transferByMonth : transfersByTargetDate.get(year)
+                        .entrySet()) {
+                    deltas[transferByMonth.getKey() - 1] += transferByMonth.getValue()
+                            .stream()
+                            .filter(transfer -> transfer.getTargetAccount()
+                                    .isOrChildOf(account))
+                            .mapToDouble(Transfer::getAmount)
+                            .sum();
+                }
+            }
+            return deltas;
+        }
+
+        return null;
     }
 }
