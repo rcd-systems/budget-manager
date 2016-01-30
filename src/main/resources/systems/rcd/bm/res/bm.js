@@ -131,10 +131,11 @@ function refreshAccountsGraph() {
   var callback = function (data) {  
     var dataArray = [['Month','Amount']];
     var amount = data.initial;
-    for(i = 0; i < 12; i++) {      
-      dataArray.push([data.deltas[i].key, amount])
-      amount += data.deltas[i].value;
-    }
+    
+    $.each(data.deltas, function() {
+      dataArray.push([this.key, amount]);
+      amount += this.value;
+    });
     dataArray.push(['', amount]);
     
     var dataTable = google.visualization.arrayToDataTable(dataArray);
@@ -145,7 +146,7 @@ function refreshAccountsGraph() {
       series: {
         0: {color: '#455a64'}
       },
-      pointSize: 5,
+      pointSize: 1,
       width:1200, /* TODO Solve */
       height:200
     };

@@ -1,5 +1,8 @@
 package systems.rcd.bm.model;
 
+import java.time.LocalDate;
+import java.util.AbstractMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,9 +28,9 @@ public class BmModelService implements RcdService, BmModelConstants {
 
     private static List<Account> rootAccounts;
     private static List<Type> rootTypes;
-    private static Map<Integer, Map<Integer, List<Transfer>>> transfersByDate;
-    private static Map<Integer, Map<Integer, List<Transfer>>> transfersBySourceDate;
-    private static Map<Integer, Map<Integer, List<Transfer>>> transfersByTargetDate;
+    private static Map<Integer, Map<Integer, Map<Integer, List<Transfer>>>> transfersByDate;
+    private static Map<Integer, Map<Integer, Map<Integer, List<Transfer>>>> transfersBySourceDate;
+    private static Map<Integer, Map<Integer, Map<Integer, List<Transfer>>>> transfersByTargetDate;
 
     public BmModelService() throws Exception {
         final RcdXlsWorkbook workbook = parseInputFile();
@@ -83,39 +86,48 @@ public class BmModelService implements RcdService, BmModelConstants {
                 .collect(
                         Collectors.groupingBy(transfer -> transfer.getDate()
                                 .getYear(),
-                                Collectors.groupingBy(transfer -> ((Transfer) transfer).getDate()
-                                        .getMonthValue())));
+                                Collectors.groupingBy(transfer -> transfer.getDate()
+                                        .getMonthValue(), Collectors.groupingBy(transfer -> transfer.getDate()
+                                                .getDayOfMonth()))));
 
         transfersBySourceDate = transfers.stream()
                 .filter(transfer -> transfer.getSourceDate() != null)
                 .collect(
                         Collectors.groupingBy(transfer -> transfer.getSourceDate()
                                 .getYear(),
-                                Collectors.groupingBy(transfer -> ((Transfer) transfer).getSourceDate()
-                                        .getMonthValue())));
+                                Collectors.groupingBy(transfer -> transfer.getSourceDate()
+                                        .getMonthValue(), Collectors.groupingBy(transfer -> transfer.getSourceDate()
+                                                .getDayOfMonth()))));
 
         transfersByTargetDate = transfers.stream()
                 .filter(transfer -> transfer.getTargetDate() != null)
                 .collect(
                         Collectors.groupingBy(transfer -> transfer.getTargetDate()
                                 .getYear(),
-                                Collectors.groupingBy(transfer -> ((Transfer) transfer).getTargetDate()
-                                        .getMonthValue())));
+                                Collectors.groupingBy(transfer -> transfer.getTargetDate()
+                                        .getMonthValue(), Collectors.groupingBy(transfer -> transfer.getTargetDate()
+                                                .getDayOfMonth()))));
 
     }
 
     // TODO Make BmModelService thread safe
     public List<Transfer> findTransfers(final Integer year, final Integer month) {
 
-        final Map<Integer, List<Transfer>> map = transfersByDate.get(year);
+        final Map<Integer, Map<Integer, List<Transfer>>> map = transfersByDate.get(year);
         if (month == null) {
             return map.values()
                     .stream()
+                    .flatMap(s -> s.values()
+                            .stream())
                     .flatMap(s -> s.stream())
                     .collect(Collectors.toList());
         }
 
-        return map.get(month);
+        return map.get(month)
+                .values()
+                .stream()
+                .flatMap(s -> s.stream())
+                .collect(Collectors.toList());
     }
 
     public Set<Integer> findYears() {
@@ -133,7 +145,7 @@ public class BmModelService implements RcdService, BmModelConstants {
     public double findInitialAmount(final Integer year, final Integer month, final String account) {
         double initialAmount = 0d;
 
-        for (final Entry<Integer, Map<Integer, List<Transfer>>> transfersByYearEntry : transfersBySourceDate.entrySet()) {
+        for (final Entry<Integer, Map<Integer, Map<Integer, List<Transfer>>>> transfersByYearEntry : transfersBySourceDate.entrySet()) {
             if (transfersByYearEntry.getKey() <= year) {
                 initialAmount -= transfersByYearEntry.getValue()
                         .entrySet()
@@ -143,7 +155,9 @@ public class BmModelService implements RcdService, BmModelConstants {
                                         || month != null && transfersByMonthEntry.getKey() < month)
                         .flatMap(
                                 transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        .values()
                                         .stream())
+                                        .flatMap(s -> s.stream())
                         .filter(
                                 transfer -> transfer.getSourceAccount()
                                         .isOrChildOf(account))
@@ -152,7 +166,7 @@ public class BmModelService implements RcdService, BmModelConstants {
             }
         }
 
-        for (final Entry<Integer, Map<Integer, List<Transfer>>> transfersByYearEntry : transfersByTargetDate.entrySet()) {
+        for (final Entry<Integer, Map<Integer, Map<Integer, List<Transfer>>>> transfersByYearEntry : transfersByTargetDate.entrySet()) {
             if (transfersByYearEntry.getKey() <= year) {
                 initialAmount += transfersByYearEntry.getValue()
                         .entrySet()
@@ -162,7 +176,9 @@ public class BmModelService implements RcdService, BmModelConstants {
                                         || month != null && transfersByMonthEntry.getKey() < month)
                         .flatMap(
                                 transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        .values()
                                         .stream())
+                        .flatMap(s -> s.stream())
                         .filter(
                                 transfer -> transfer.getTargetAccount()
                                         .isOrChildOf(account))
@@ -174,37 +190,50 @@ public class BmModelService implements RcdService, BmModelConstants {
         return initialAmount;
     }
 
-    public double[] findDeltas(final Integer year, final Integer month, final String account) {
-        if (month == null) {
-            final double[] deltas = new double[12];
-            if (transfersBySourceDate.containsKey(year)) {
-                for (final Entry<Integer, List<Transfer>> transferByMonth : transfersBySourceDate.get(year)
-                        .entrySet()) {
-                    deltas[transferByMonth.getKey() - 1] -= transferByMonth.getValue()
-                            .stream()
-                            .filter(transfer -> transfer.getSourceAccount()
-                                    .isOrChildOf(account))
-                                    .mapToDouble(Transfer::getAmount)
-                                    .sum();
+    public List<Entry<String, Integer>> findDeltas(final Integer year, final Integer month, final String account) {
+
+        final List<Map.Entry<String, Integer>> deltas = new LinkedList<>();
+        LocalDate date = LocalDate.of(year, month == null ? 1 : month, 1);
+
+        while (date.getYear() == year && (month == null || date.getMonthValue() == month)) {
+
+            double delta = 0;
+            Map<Integer, Map<Integer, List<Transfer>>> transfersByMonth = transfersBySourceDate.get(date.getYear());
+            if (transfersByMonth != null) {
+                final Map<Integer, List<Transfer>> transfersByDay = transfersByMonth.get(date.getMonthValue());
+                if (transfersByDay != null) {
+                    final List<Transfer> transfers = transfersByDay.get(date.getDayOfMonth());
+
+                    if (transfers != null) {
+                        delta -= transfers.stream()
+                                .filter(transfer -> transfer.getSourceAccount()
+                                        .isOrChildOf(account))
+                                .mapToDouble(Transfer::getAmount)
+                                .sum();
+                    }
                 }
             }
 
-            if (transfersByTargetDate.containsKey(year)) {
-                for (final Entry<Integer, List<Transfer>> transferByMonth : transfersByTargetDate.get(year)
-                        .entrySet()) {
-                    deltas[transferByMonth.getKey() - 1] += transferByMonth.getValue()
-                            .stream()
-                            .filter(transfer -> transfer.getTargetAccount()
-                                    .isOrChildOf(account))
-                                    .mapToDouble(Transfer::getAmount)
-                                    .sum();
+            transfersByMonth = transfersByTargetDate.get(date.getYear());
+            if (transfersByMonth != null) {
+                final Map<Integer, List<Transfer>> transfersByDay = transfersByMonth.get(date.getMonthValue());
+                if (transfersByDay != null) {
+                    final List<Transfer> transfers = transfersByDay.get(date.getDayOfMonth());
+
+                    if (transfers != null) {
+                        delta += transfers.stream()
+                                .filter(transfer -> transfer.getTargetAccount()
+                                        .isOrChildOf(account))
+                                .mapToDouble(Transfer::getAmount)
+                                .sum();
+                    }
                 }
             }
-            return deltas;
-        } else {
 
+            deltas.add(new AbstractMap.SimpleEntry(date.getDayOfMonth() + "/" + date.getMonthValue(), delta));
+
+            date = date.plusDays(1);
         }
-
-        return null;
+        return deltas;
     }
 }

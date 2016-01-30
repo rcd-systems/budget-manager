@@ -1,9 +1,8 @@
 package systems.rcd.bm.json;
 
 import java.io.IOException;
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.Locale;
+import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,20 +28,20 @@ public class BmDeltasJsonInterfaceHandler implements RcdJettyHandler {
 
         final double initialAmount = RcdContext.getService(BmModelService.class)
                 .findInitialAmount(year, month, account);
-        final double[] deltas = RcdContext.getService(BmModelService.class)
+        final List<Entry<String, Integer>> deltas = RcdContext.getService(BmModelService.class)
                 .findDeltas(year, month, account);
 
         final RcdJsonObject jsonResponse = RcdJsonService.createJsonObject();
         jsonResponse.put("initial", initialAmount);
         final RcdJsonArray deltaJsonArray = jsonResponse.createArray("deltas");
 
-        for (int i = 0; i < deltas.length; i++) {
+        for (final Entry<String, Integer> delta : deltas) {
             deltaJsonArray.createObject()
-                    .put("key", Month.values()[i].getDisplayName(TextStyle.SHORT, Locale.getDefault()))
-                    .put("value", deltas[i]);
+            .put("key", delta.getKey())
+            .put("value", delta.getValue());
         }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter()
-        .println(RcdJsonService.toJson(jsonResponse));
+                .println(RcdJsonService.toJson(jsonResponse));
     }
 }
