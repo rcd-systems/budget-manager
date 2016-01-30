@@ -126,6 +126,7 @@ function refreshAccountsGraph() {
       series: {
         0: {color: '#455a64'}
       },
+      pointSize: 5,
       width:1200, /* TODO Solve */
       height:200
     };
@@ -142,7 +143,7 @@ function refreshAccountsGraph() {
       data: {
         year: year,
         month: month == 0 ? undefined : month,
-        account: allAccounts ? "AxaCurrent" : account,
+        account: allAccounts ? "Assets" : account,
       },
       dataType: "json",
       success: callback

@@ -103,6 +103,12 @@ h1, a , label{
   flex: 0 0 9em;
 }
 
+#accounts-chart {
+  width:100%;
+  flex: 0 0 200px;
+}
+
+
 
 .hidden {
   display: none !important;
