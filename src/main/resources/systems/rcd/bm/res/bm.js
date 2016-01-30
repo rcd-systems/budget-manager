@@ -107,36 +107,30 @@ function refreshTransfersTable() {
   });
 }
 
-var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Obtober', 'November', 'December'];
+var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Obtober', 'November', 'December', ''];
+var accountsChart;
 function refreshAccountsGraph() {
-  var callback = function (data) {
-  
-  console.log("test");
-    /*var dataArray = [['Month','Delta']];    
-    $.each(data.deltas, function (index) {
-      dataArray.push([months[index], this])
-    });*/
-    
-    var dataArray =[
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
-        ]
-  
+  var callback = function (data) {  
+    var dataArray = [['Month','Amount']];
+    var amount = data.initial;
+    for(i = 0; i < 13; i++) {      
+      dataArray.push([months[i], amount])
+      amount += data.deltas[i];
+    }  
     var dataTable = google.visualization.arrayToDataTable(dataArray);
 
     var options = {
-      title: 'Account',
+      title: $('#bm-combo-account').val(),
       curveType: 'function',
-      legend: { position: 'bottom' }
-
+      legend: 'none',
+      series: {
+        0: {color: '#455a64'}
+      },
+      width:1200, /* TODO Solve */
+      height:200
     };
-
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-    chart.draw(dataTable, options);
+    
+    accountsChart.draw(dataTable, options);
   }
 
   var year = $('#bm-combo-year').val();
@@ -160,38 +154,20 @@ $("#bm-nav-accounts").click(() => displayDetails("#bm-accounts-details"));
 
 $( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();
+    refreshAccountsGraph();
 });
 
 $.when( refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes() ).done(() => {
   refreshTransfersTable();
   
   google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(refreshAccountsGraph);  
+  google.charts.setOnLoadCallback(() => {
+    accountsChart = new google.visualization.LineChart(document.getElementById('accounts-chart'));
+    refreshAccountsGraph()
+  });  
+  
 });
 
-(function() {
-  
-
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ['Year', 'Sales', 'Expenses'],
-      ['2004',  1000,      400],
-      ['2005',  1170,      460],
-      ['2006',  660,       1120],
-      ['2007',  1030,      540]
-    ]);
-
-    var options = {
-      title: 'Company Performance',
-      curveType: 'function',
-      legend: { position: 'bottom' }
-    };
-
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-    chart.draw(data, options);
-  }
-})();
 
 
 

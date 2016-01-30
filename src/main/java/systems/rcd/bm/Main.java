@@ -2,6 +2,7 @@ package systems.rcd.bm;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import systems.rcd.bm.json.BmAccountsJsonInterfaceHandler;
 import systems.rcd.bm.json.BmDeltasJsonInterfaceHandler;
@@ -37,7 +38,10 @@ public class Main {
 
     private static RcdJettyServer launchServer() throws Exception {
         return RcdJettyService.createServer("localhost", 0)
-                .addResourceHandler("/res", Main.class.getResource("res"))
+                .addResourceHandler("/res", Paths.get("src/main/resources/systems/rcd/bm/res")
+                        .toUri()
+                        .toURL())
+                // .addResourceHandler("/res", Main.class.ggetResource("res"))
                 .addHandler("/json/transfers", new BmTransfersJsonInterfaceHandler())
                 .addHandler("/json/years", new BmYearsJsonInterfaceHandler())
                 .addHandler("/json/types", new BmTypesJsonInterfaceHandler())
@@ -50,7 +54,7 @@ public class Main {
         if (Desktop.isDesktopSupported())
         {
             Desktop.getDesktop()
-                    .browse(server.getUri());
+            .browse(server.getUri());
         }
     }
 }
