@@ -64,12 +64,12 @@
       <div id="bm-main-interface" class="hidden">
         <div id="bm-menu">        
           <form>
-            <div>
+            <div class="bm-menu-line">
               <label>Year:</label>
               <select id="bm-combo-year" class="bm-menu-combo">
               </select>
             </div>            
-            <div>
+            <div class="bm-menu-line">
               <label>Month:</label>
               <select id="bm-combo-month" class="bm-menu-combo">
                 <option>All months</option>
@@ -87,22 +87,22 @@
                 <option>December</option>
               </select>
             </div>
-            <div>
+            <div id="bm-menu-type" class="bm-menu-line">
               <label>Type:</label>
               <select id="bm-combo-type" class="bm-menu-combo">
               </select>
             </div>
-            <div>
+            <div id="bm-menu-account" class="bm-menu-line">
               <label>Account:</label>
               <select id="bm-combo-account" class="bm-menu-combo">
               </select>
             </div>
-            <div>
+            <div id="bm-menu-account-from" class="bm-menu-line">
               <label>From:</label>
               <select id="bm-combo-account-from" class="bm-menu-combo">
               </select>
             </div>
-            <div>
+            <div id="bm-menu-account-to" class="bm-menu-line">
               <label>To:</label>
               <select id="bm-combo-account-to" class="bm-menu-combo">
               </select>
@@ -112,14 +112,14 @@
         <div id="bm-transfers-details" class="bm-details hidden">
           <h2 class="bm-details-title">Transfers</h2>
           <div class="rcd-table">
-            <div class="rcd-row">
+            <div class="rcd-row rcd-header-row">
               <span class="bm-col-date">Date</span>
               <span class="bm-col-type">Type</span>
               <span class="bm-col-amount">Amount</span>
-              <span class="bm-col-account">Source Account</span>
-              <span class="bm-col-date">Source Date</span>
-              <span class="bm-col-account">Target Account</span>
-              <span class="bm-col-date">Target Date</span>
+              <span class="bm-col-account">From</span>
+              <span class="bm-col-date"></span>
+              <span class="bm-col-account">To</span>
+              <span class="bm-col-date"></span>
               <span class="bm-col-comments">Comments</span>
             </div>
             <div id="bm-transfers-tbody">              

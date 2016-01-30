@@ -38,6 +38,6 @@ public class BmDeltasJsonInterfaceHandler implements RcdJettyHandler {
 
         response.setContentType("application/json; charset=utf-8");
         response.getWriter()
-        .println(RcdJsonService.toJson(jsonResponse));
+                .println(RcdJsonService.toJson(jsonResponse));
     }
 }

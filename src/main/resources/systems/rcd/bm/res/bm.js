@@ -13,6 +13,23 @@ function displayDetails(selector) {
   display("#bm-main-interface");  
 }
 
+function displayTransfers() {
+  hide("#bm-menu-account");
+  display("#bm-menu-type");
+  display("#bm-menu-account-from");
+  display("#bm-menu-account-to");
+  displayDetails("#bm-transfers-details");
+}
+
+function displayAccounts() {
+  display("#bm-menu-account");
+  hide("#bm-menu-type");
+  hide("#bm-menu-account-from");
+  hide("#bm-menu-account-to");
+  displayDetails("#bm-accounts-details");
+  
+}
+
 function refreshYearsCombobox() {
   var callback = function (data) {
       var yearsComboboxHtml = "";
@@ -67,17 +84,19 @@ function refreshAccountsComboboxes() {
 function refreshTransfersTable() {
   var callback = function (data) {
     var bmTbodytransfer = "";
+    var otherRow = false;
     $.each( data, function() {
-      bmTbodytransfer += '<div class="rcd-row">';
+      bmTbodytransfer += '<div class="rcd-row' + (otherRow ? ' rcd-other-row' : '') + '">';
       bmTbodytransfer += '<span class="bm-col-date">' + this.date + '</span>';
       bmTbodytransfer += '<span class="bm-col-type">' + this.type + '</span>';
-      bmTbodytransfer += '<span class="bm-col-amount">' + this.amount + ' ' + this.currency + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.amount.toFixed(2) + ' ' + this.currency + '</span>';
       bmTbodytransfer += '<span class="bm-col-account">' + (this.srcAccount ? this.srcAccount : '-') + '</span>';
       bmTbodytransfer += '<span class="bm-col-date">' + (this.srcDate ? this.srcDate : '-') + '</span>';
       bmTbodytransfer += '<span class="bm-col-account">' + (this.tgtAccount ? this.tgtAccount : '-') + '</span>';
       bmTbodytransfer += '<span class="bm-col-date">' + (this.tgtDate ? this.tgtDate : '-') + '</span>';
       bmTbodytransfer += '<span class="bm-col-comments">' + (this.comments ? this.comments : '-') + '</span>';
-      bmTbodytransfer += '</div>';    
+      bmTbodytransfer += '</div>';   
+      otherRow = !otherRow;
     }); 
     $('#bm-transfers-tbody').html(bmTbodytransfer);
   }
@@ -121,7 +140,6 @@ function refreshAccountsGraph() {
 
     var options = {
       title: $('#bm-combo-account').val(),
-      curveType: 'function',
       legend: 'none',
       series: {
         0: {color: '#455a64'}
@@ -150,8 +168,8 @@ function refreshAccountsGraph() {
   });
 }
 
-$("#bm-nav-transfers").click(() => displayDetails("#bm-transfers-details"));
-$("#bm-nav-accounts").click(() => displayDetails("#bm-accounts-details"));
+$("#bm-nav-transfers").click(() => displayTransfers());
+$("#bm-nav-accounts").click(() => displayAccounts());
 
 $( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();

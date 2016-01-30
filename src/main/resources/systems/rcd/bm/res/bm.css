@@ -13,12 +13,16 @@ select {
 }
 
 /* Text padding */
-h1, a , label{
+h1, a , label, .rcd-row{
   padding: 0.5em 1em;
 }
 
+select {
+  margin: 0.5em 1em;
+}
+
 /* Flex containers */
-.bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details, .rcd-row{
+.bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details, .bm-menu-line, .rcd-row{
   display: flex;    
 }
 
@@ -34,10 +38,14 @@ h1, a , label{
 }
 
 /* Background */ 
-.bm-header, #bm-menu {  
-  background : #607d8b;
+.bm-header, #bm-menu, .rcd-header-row {  
+  background: #607d8b;
   color: #FFFFFF;
   fill: #FFFFFF;
+}
+
+.rcd-other-row{
+  background: #eceff1;
 }
 
 /* Header */
@@ -103,12 +111,18 @@ h1, a , label{
   flex: 0 0 9em;
 }
 
+.bm-menu-line > label {
+  flex: 0 0 5em;
+}
+
+.bm-menu-line > select {
+  flex: 1 0 0;
+}
+
 #accounts-chart {
   width:100%;
   flex: 0 0 200px;
 }
-
-
 
 .hidden {
   display: none !important;
