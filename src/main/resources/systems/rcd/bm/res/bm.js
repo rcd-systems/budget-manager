@@ -126,16 +126,17 @@ function refreshTransfersTable() {
   });
 }
 
-var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Obtober', 'November', 'December', ''];
 var accountsChart;
 function refreshAccountsGraph() {
   var callback = function (data) {  
     var dataArray = [['Month','Amount']];
     var amount = data.initial;
-    for(i = 0; i < 13; i++) {      
-      dataArray.push([months[i], amount])
-      amount += data.deltas[i];
-    }  
+    for(i = 0; i < 12; i++) {      
+      dataArray.push([data.deltas[i].key, amount])
+      amount += data.deltas[i].value;
+    }
+    dataArray.push(['', amount]);
+    
     var dataTable = google.visualization.arrayToDataTable(dataArray);
 
     var options = {

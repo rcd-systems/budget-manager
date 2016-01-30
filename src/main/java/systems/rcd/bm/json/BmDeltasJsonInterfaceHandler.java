@@ -1,6 +1,9 @@
 package systems.rcd.bm.json;
 
 import java.io.IOException;
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,12 +35,14 @@ public class BmDeltasJsonInterfaceHandler implements RcdJettyHandler {
         final RcdJsonObject jsonResponse = RcdJsonService.createJsonObject();
         jsonResponse.put("initial", initialAmount);
         final RcdJsonArray deltaJsonArray = jsonResponse.createArray("deltas");
-        for (final double delta : deltas) {
-            deltaJsonArray.add(delta);
-        }
 
+        for (int i = 0; i < deltas.length; i++) {
+            deltaJsonArray.createObject()
+                    .put("key", Month.values()[i].getDisplayName(TextStyle.SHORT, Locale.getDefault()))
+                    .put("value", deltas[i]);
+        }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter()
-                .println(RcdJsonService.toJson(jsonResponse));
+        .println(RcdJsonService.toJson(jsonResponse));
     }
 }

@@ -140,15 +140,15 @@ public class BmModelService implements RcdService, BmModelConstants {
                         .stream()
                         .filter(
                                 transfersByMonthEntry -> transfersByYearEntry.getKey() < year
-                                || month != null && transfersByMonthEntry.getKey() < month)
-                                .flatMap(
-                                        transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        || month != null && transfersByMonthEntry.getKey() < month)
+                        .flatMap(
+                                transfersByMonthEntry -> transfersByMonthEntry.getValue()
                                         .stream())
-                                        .filter(
-                                                transfer -> transfer.getSourceAccount()
-                                                .isOrChildOf(account))
-                                                .mapToDouble(Transfer::getAmount)
-                                                .sum();
+                        .filter(
+                                transfer -> transfer.getSourceAccount()
+                                        .isOrChildOf(account))
+                        .mapToDouble(Transfer::getAmount)
+                        .sum();
             }
         }
 
@@ -159,15 +159,15 @@ public class BmModelService implements RcdService, BmModelConstants {
                         .stream()
                         .filter(
                                 transfersByMonthEntry -> transfersByYearEntry.getKey() < year
-                                || month != null && transfersByMonthEntry.getKey() < month)
-                                .flatMap(
-                                        transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        || month != null && transfersByMonthEntry.getKey() < month)
+                        .flatMap(
+                                transfersByMonthEntry -> transfersByMonthEntry.getValue()
                                         .stream())
-                                        .filter(
-                                                transfer -> transfer.getTargetAccount()
-                                                .isOrChildOf(account))
-                                                .mapToDouble(Transfer::getAmount)
-                                                .sum();
+                        .filter(
+                                transfer -> transfer.getTargetAccount()
+                                        .isOrChildOf(account))
+                        .mapToDouble(Transfer::getAmount)
+                        .sum();
             }
         }
 
@@ -184,8 +184,8 @@ public class BmModelService implements RcdService, BmModelConstants {
                             .stream()
                             .filter(transfer -> transfer.getSourceAccount()
                                     .isOrChildOf(account))
-                            .mapToDouble(Transfer::getAmount)
-                            .sum();
+                                    .mapToDouble(Transfer::getAmount)
+                                    .sum();
                 }
             }
 
@@ -196,11 +196,13 @@ public class BmModelService implements RcdService, BmModelConstants {
                             .stream()
                             .filter(transfer -> transfer.getTargetAccount()
                                     .isOrChildOf(account))
-                            .mapToDouble(Transfer::getAmount)
-                            .sum();
+                                    .mapToDouble(Transfer::getAmount)
+                                    .sum();
                 }
             }
             return deltas;
+        } else {
+
         }
 
         return null;
