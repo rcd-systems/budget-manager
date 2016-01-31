@@ -127,25 +127,34 @@
           </div>
         </div>
         <div id="bm-accounts-details" class="bm-details hidden">
-          <h2 class="bm-details-title">Incoming transfers</h2>
+          <h2 class="bm-details-title">Accounts</h2>
           <div id="accounts-chart"></div>
-
-          <table>
-            <thead>
-              <tr>
-                <td>Date</td>
-                <td>Type</td>
-                <td>Amount</td>
-                <td>Source Account</td>
-                <td>Source Date</td>
-                <td>Target Account</td>
-                <td>Target Date</td>
-                <td>Comments</td>
-              </tr>
-            </thead>
-            <tbody id="bm-accounts-tbody">            
-            </tbody>
-          </table>
+          <h2 class="bm-details-title">Incoming transfers</h2>
+          <div class="rcd-table">
+            <div class="rcd-row rcd-header-row">
+              <span class="bm-col-date">Received the</span>
+              <span class="bm-col-type">Type</span>
+              <span class="bm-col-amount">Amount</span>
+              <span class="bm-col-account">From</span>
+              <span class="bm-col-date"></span>
+              <span class="bm-col-comments">Comments</span>
+            </div>
+            <div id="bm-accounts-inc-tbody">              
+            </div>
+          </div>
+          <h2 class="bm-details-title">Outgoing transfers</h2>
+          <div class="rcd-table">
+            <div class="rcd-row rcd-header-row">
+              <span class="bm-col-date">Sent the</span>
+              <span class="bm-col-type">Type</span>
+              <span class="bm-col-amount">Amount</span>
+              <span class="bm-col-account">To</span>
+              <span class="bm-col-date"></span>
+              <span class="bm-col-comments">Comments</span>
+            </div>
+            <div id="bm-accounts-out-tbody">              
+            </div>
+          </div>
         </div>        
       </div>      
     </main>    

@@ -126,6 +126,76 @@ function refreshTransfersTable() {
   });
 }
 
+function refreshIncomingTransfersTable() {
+  var callback = function (data) {
+    var bmTbodytransfer = "";
+    var otherRow = false;
+    $.each( data, function() {
+      bmTbodytransfer += '<div class="rcd-row' + (otherRow ? ' rcd-other-row' : '') + '">';
+      bmTbodytransfer += '<span class="bm-col-date">' + this.tgtDate + '</span>';
+      bmTbodytransfer += '<span class="bm-col-type">' + this.type + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.amount.toFixed(2) + ' ' + this.currency + '</span>';
+      bmTbodytransfer += '<span class="bm-col-account">' + (this.srcAccount ? this.srcAccount : '-') + '</span>';
+      bmTbodytransfer += '<span class="bm-col-date">' + (this.srcDate ? this.srcDate : '-') + '</span>';
+      bmTbodytransfer += '<span class="bm-col-comments">' + (this.comments ? this.comments : '-') + '</span>';
+      bmTbodytransfer += '</div>';   
+      otherRow = !otherRow;
+    }); 
+    $('#bm-accounts-inc-tbody').html(bmTbodytransfer);
+  }
+
+  var year = $('#bm-combo-year').val();
+  var month = $('#bm-combo-month').prop("selectedIndex");
+  var allTypes = $('#bm-combo-type').prop("selectedIndex") == 0;
+  var allAccounts = $('#bm-combo-account').prop("selectedIndex") == 0;
+  var account = $('#bm-combo-account').val();
+  $.ajax({
+      url: '../json/incoming-transfers',
+      data: {
+        year: year,
+        month: month == 0 ? undefined : month,
+        account: allAccounts ? undefined : account
+      },
+      dataType: "json",
+      success: callback
+  });
+}
+
+function refreshOutgoingTransfersTable() {
+  var callback = function (data) {
+    var bmTbodytransfer = "";
+    var otherRow = false;
+    $.each( data, function() {
+      bmTbodytransfer += '<div class="rcd-row' + (otherRow ? ' rcd-other-row' : '') + '">';
+      bmTbodytransfer += '<span class="bm-col-date">' + this.srcDate + '</span>';
+      bmTbodytransfer += '<span class="bm-col-type">' + this.type + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.amount.toFixed(2) + ' ' + this.currency + '</span>';
+      bmTbodytransfer += '<span class="bm-col-account">' + (this.tgtAccount ? this.srcAccount : '-') + '</span>';
+      bmTbodytransfer += '<span class="bm-col-date">' + (this.tgtDate ? this.srcDate : '-') + '</span>';
+      bmTbodytransfer += '<span class="bm-col-comments">' + (this.comments ? this.comments : '-') + '</span>';
+      bmTbodytransfer += '</div>';   
+      otherRow = !otherRow;
+    }); 
+    $('#bm-accounts-out-tbody').html(bmTbodytransfer);
+  }
+
+  var year = $('#bm-combo-year').val();
+  var month = $('#bm-combo-month').prop("selectedIndex");
+  var allTypes = $('#bm-combo-type').prop("selectedIndex") == 0;
+  var allAccounts = $('#bm-combo-account').prop("selectedIndex") == 0;
+  var account = $('#bm-combo-account').val();
+  $.ajax({
+      url: '../json/outgoing-transfers',
+      data: {
+        year: year,
+        month: month == 0 ? undefined : month,
+        account: allAccounts ? undefined : account
+      },
+      dataType: "json",
+      success: callback
+  });
+}
+
 var accountsChart;
 function refreshAccountsGraph() {
   var callback = function (data) {  
@@ -175,11 +245,15 @@ $("#bm-nav-accounts").click(() => displayAccounts());
 
 $( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();
+    refreshIncomingTransfersTable();
+    refreshOutgoingTransfersTable();
     refreshAccountsGraph();
 });
 
 $.when( refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes() ).done(() => {
   refreshTransfersTable();
+  refreshIncomingTransfersTable();
+  refreshOutgoingTransfersTable();
   
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(() => {
