@@ -154,7 +154,7 @@ function refreshIncomingTransfersTable() {
       data: {
         year: year,
         month: month == 0 ? undefined : month,
-        account: allAccounts ? undefined : account
+        account: allAccounts ? "Assets" : account
       },
       dataType: "json",
       success: callback
@@ -189,7 +189,7 @@ function refreshOutgoingTransfersTable() {
       data: {
         year: year,
         month: month == 0 ? undefined : month,
-        account: allAccounts ? undefined : account
+        account: allAccounts ? "Assets" : account
       },
       dataType: "json",
       success: callback
@@ -233,7 +233,7 @@ function refreshAccountsGraph() {
       data: {
         year: year,
         month: month == 0 ? undefined : month,
-        account: allAccounts ? "Assets" : account,
+        account: allAccounts ? "Assets" : account
       },
       dataType: "json",
       success: callback

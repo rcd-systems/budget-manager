@@ -101,4 +101,35 @@ public class Transfer {
         return this;
     }
 
+    public boolean isIncoming(final String account) {
+        if (targetAccount == null || targetDate == null) {
+            return false;
+        }
+
+        if (targetAccount.isOrChildOf(account)) {
+            if (sourceAccount == null || sourceDate == null) {
+                return true;
+            }
+
+            return !sourceAccount.isChildOf(account);
+        }
+
+        return false;
+    }
+
+    public boolean isOutgoing(final String account) {
+        if (sourceAccount == null || sourceDate == null) {
+            return false;
+        }
+
+        if (sourceAccount.isChildOf(account)) {
+            if (targetAccount == null || targetDate == null) {
+                return true;
+            }
+            return !targetAccount.isOrChildOf(account);
+        }
+
+        return false;
+    }
+
 }

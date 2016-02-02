@@ -30,16 +30,14 @@ public class BmIncomingTransfersJsonInterfaceHandler implements RcdJettyHandler 
         final List<Transfer> transfers = RcdContext.getService(BmModelService.class)
                 .findIncomingTransfers(year, month)
                 .stream()
-                .filter(transfer -> account != null && transfer.getTargetAccount()
-                .isOrChildOf(account) && !transfer.getSourceAccount()
-                .isOrChildOf(account))
+                .filter(transfer -> transfer.isIncoming(account))
                 .collect(Collectors.toList());
         final RcdJsonArray jsonResponse = new BmTransferJsonConverter().convert(transfers);
 
         if (jsonResponse != null) {
             response.setContentType("application/json; charset=utf-8");
             response.getWriter()
-            .println(RcdJsonService.toJson(jsonResponse));
+                    .println(RcdJsonService.toJson(jsonResponse));
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

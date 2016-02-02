@@ -46,10 +46,10 @@ public class Type {
     }
 
     public boolean isChildOf(final String type) {
-        if (this.parent == null) {
-            return type == null;
-        }
         if (type == null) {
+            return true;
+        }
+        if (this.parent == null) {
             return false;
         }
         if (this.parent.getName()

@@ -46,10 +46,10 @@ public class Account {
     }
 
     public boolean isChildOf(final String account) {
-        if (this.parent == null) {
-            return account == null;
-        }
         if (account == null) {
+            return true;
+        }
+        if (this.parent == null) {
             return false;
         }
         if (this.parent.getName()
