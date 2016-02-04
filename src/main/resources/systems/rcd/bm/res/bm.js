@@ -126,6 +126,40 @@ function refreshTransfersTable() {
   });
 }
 
+
+
+function refreshSubAccountsTable() {
+  var callback = function (data) {
+    var bmTbodytransfer = "";
+    var otherRow = false;
+    $.each( data, function() {
+      bmTbodytransfer += '<div class="rcd-row' + (otherRow ? ' rcd-other-row' : '') + '">';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.name + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.start.toFixed(2) + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.end.toFixed(2) + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.delta.toFixed(2) + '</span>';
+      bmTbodytransfer += '</div>';   
+      otherRow = !otherRow;
+    }); 
+    $('#bm-sub-accounts-tbody').html(bmTbodytransfer);
+  }
+
+  var year = $('#bm-combo-year').val();
+  var month = $('#bm-combo-month').prop("selectedIndex");
+  var allAccounts = $('#bm-combo-account').prop("selectedIndex") == 0;
+  var account = $('#bm-combo-account').val();
+  $.ajax({
+      url: '../json/sub-accounts',
+      data: {
+        year: year,
+        month: month == 0 ? undefined : month,
+        account: allAccounts ? "Assets" : account
+      },
+      dataType: "json",
+      success: callback
+  });
+}
+
 function refreshIncomingTransfersTable() {
   var callback = function (data) {
     var bmTbodytransfer = "";
@@ -146,7 +180,6 @@ function refreshIncomingTransfersTable() {
 
   var year = $('#bm-combo-year').val();
   var month = $('#bm-combo-month').prop("selectedIndex");
-  var allTypes = $('#bm-combo-type').prop("selectedIndex") == 0;
   var allAccounts = $('#bm-combo-account').prop("selectedIndex") == 0;
   var account = $('#bm-combo-account').val();
   $.ajax({
@@ -181,7 +214,6 @@ function refreshOutgoingTransfersTable() {
 
   var year = $('#bm-combo-year').val();
   var month = $('#bm-combo-month').prop("selectedIndex");
-  var allTypes = $('#bm-combo-type').prop("selectedIndex") == 0;
   var allAccounts = $('#bm-combo-account').prop("selectedIndex") == 0;
   var account = $('#bm-combo-account').val();
   $.ajax({
@@ -245,6 +277,7 @@ $("#bm-nav-accounts").click(() => displayAccounts());
 
 $( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();
+    refreshSubAccountsTable();
     refreshIncomingTransfersTable();
     refreshOutgoingTransfersTable();
     refreshAccountsGraph();
@@ -252,6 +285,8 @@ $( ".bm-menu-combo" ).change(function() {
 
 $.when( refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes() ).done(() => {
   refreshTransfersTable();
+  
+  refreshSubAccountsTable();
   refreshIncomingTransfersTable();
   refreshOutgoingTransfersTable();
   

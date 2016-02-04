@@ -2,6 +2,7 @@ package systems.rcd.bm.model;
 
 import java.time.LocalDate;
 import java.util.AbstractMap;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -148,6 +149,14 @@ public class BmModelService implements RcdService, BmModelConstants {
 
     public Set<String> findTypeNames() {
         return typeMap.keySet();
+    }
+
+    public Account findAccount(final String key) {
+        return accountMap.get(key);
+    }
+
+    public Collection<Account> findAccounts() {
+        return accountMap.values();
     }
 
     public Set<String> findAccountNames() {

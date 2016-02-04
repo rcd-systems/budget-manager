@@ -45,6 +45,14 @@ public class Account {
         return false;
     }
 
+    public boolean isDirectChildOf(final String account) {
+        if (this.parent == null) {
+            return account == null;
+        }
+        return this.parent.getName()
+                .equals(account);
+    }
+
     public boolean isChildOf(final String account) {
         if (account == null) {
             return true;
