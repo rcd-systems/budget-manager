@@ -45,6 +45,14 @@ public class Type {
         return false;
     }
 
+    public boolean isDirectChildOf(final String type) {
+        if (this.parent == null) {
+            return type == null;
+        }
+        return this.parent.getName()
+                .equals(type);
+    }
+
     public boolean isChildOf(final String type) {
         if (type == null) {
             return true;

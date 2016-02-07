@@ -89,7 +89,7 @@ public class BmModelService implements RcdService, BmModelConstants {
                                 .getYear(),
                                 Collectors.groupingBy(transfer -> transfer.getDate()
                                         .getMonthValue(), Collectors.groupingBy(transfer -> transfer.getDate()
-                                        .getDayOfMonth()))));
+                                                .getDayOfMonth()))));
 
         transfersBySourceDate = transfers.stream()
                 .filter(transfer -> transfer.getSourceDate() != null)
@@ -98,7 +98,7 @@ public class BmModelService implements RcdService, BmModelConstants {
                                 .getYear(),
                                 Collectors.groupingBy(transfer -> transfer.getSourceDate()
                                         .getMonthValue(), Collectors.groupingBy(transfer -> transfer.getSourceDate()
-                                        .getDayOfMonth()))));
+                                                .getDayOfMonth()))));
 
         transfersByTargetDate = transfers.stream()
                 .filter(transfer -> transfer.getTargetDate() != null)
@@ -107,7 +107,7 @@ public class BmModelService implements RcdService, BmModelConstants {
                                 .getYear(),
                                 Collectors.groupingBy(transfer -> transfer.getTargetDate()
                                         .getMonthValue(), Collectors.groupingBy(transfer -> transfer.getTargetDate()
-                                        .getDayOfMonth()))));
+                                                .getDayOfMonth()))));
 
     }
 
@@ -132,8 +132,8 @@ public class BmModelService implements RcdService, BmModelConstants {
                     .stream()
                     .flatMap(s -> s.values()
                             .stream())
-                            .flatMap(s -> s.stream())
-                            .collect(Collectors.toList());
+                    .flatMap(s -> s.stream())
+                    .collect(Collectors.toList());
         }
 
         return map.get(month)
@@ -159,6 +159,10 @@ public class BmModelService implements RcdService, BmModelConstants {
         return accountMap.values();
     }
 
+    public Collection<Type> findTypes() {
+        return typeMap.values();
+    }
+
     public Set<String> findAccountNames() {
         return accountMap.keySet();
     }
@@ -173,15 +177,15 @@ public class BmModelService implements RcdService, BmModelConstants {
                         .stream()
                         .filter(
                                 transfersByMonthEntry -> transfersByYearEntry.getKey() < year
-                                || month != null && transfersByMonthEntry.getKey() < month)
-                                .flatMap(
-                                        transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        || month != null && transfersByMonthEntry.getKey() < month)
+                        .flatMap(
+                                transfersByMonthEntry -> transfersByMonthEntry.getValue()
                                         .values()
                                         .stream())
-                        .flatMap(s -> s.stream())
-                                        .filter(transfer -> transfer.isOutgoing(account))
-                                        .mapToDouble(Transfer::getAmount)
-                                        .sum();
+                                        .flatMap(s -> s.stream())
+                        .filter(transfer -> transfer.isOutgoing(account))
+                        .mapToDouble(Transfer::getAmount)
+                        .sum();
             }
         }
 
@@ -192,15 +196,15 @@ public class BmModelService implements RcdService, BmModelConstants {
                         .stream()
                         .filter(
                                 transfersByMonthEntry -> transfersByYearEntry.getKey() < year
-                                || month != null && transfersByMonthEntry.getKey() < month)
-                                .flatMap(
-                                        transfersByMonthEntry -> transfersByMonthEntry.getValue()
+                                        || month != null && transfersByMonthEntry.getKey() < month)
+                        .flatMap(
+                                transfersByMonthEntry -> transfersByMonthEntry.getValue()
                                         .values()
                                         .stream())
-                                        .flatMap(s -> s.stream())
-                                        .filter(transfer -> transfer.isIncoming(account))
-                                        .mapToDouble(Transfer::getAmount)
-                                        .sum();
+                        .flatMap(s -> s.stream())
+                        .filter(transfer -> transfer.isIncoming(account))
+                        .mapToDouble(Transfer::getAmount)
+                        .sum();
             }
         }
 

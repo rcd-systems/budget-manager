@@ -1,4 +1,4 @@
-function display(selector) {
+﻿function display(selector) {
     $(selector).removeClass("hidden");
 }
 
@@ -19,6 +19,14 @@ function displayTransfers() {
   display("#bm-menu-account-from");
   display("#bm-menu-account-to");
   displayDetails("#bm-transfers-details");
+}
+
+function displayBudget() {
+  hide("#bm-menu-account");
+  display("#bm-menu-type");
+  hide("#bm-menu-account-from");
+  hide("#bm-menu-account-to");
+  displayDetails("#bm-budget-details");
 }
 
 function displayAccounts() {
@@ -120,6 +128,36 @@ function refreshTransfersTable() {
         account: allAccounts ? undefined : account,
         fromAccount: fromAllAccounts ? undefined : fromAccount,
         toAccount: toAllAccounts ? undefined : toAccount,
+      },
+      dataType: "json",
+      success: callback
+  });
+}
+
+function refreshBudgetTable() {
+  var callback = function (data) {
+    var bmTbodytransfer = "";
+    var otherRow = false;
+    $.each( data, function() {
+      bmTbodytransfer += '<div class="rcd-row' + (otherRow ? ' rcd-other-row' : '') + '">';
+      bmTbodytransfer += '<span class="bm-col-type">' + this.name + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.amount.toFixed(2) + '</span>';
+      bmTbodytransfer += '</div>';   
+      otherRow = !otherRow;
+    }); 
+    $('#bm-transfers-tbody').html(bmTbodytransfer);
+  }
+
+  var year = $('#bm-combo-year').val();
+  var month = $('#bm-combo-month').prop("selectedIndex");
+  var allTypes = $('#bm-combo-type').prop("selectedIndex") == 0;
+  var type = $('#bm-combo-type').val();
+  $.ajax({
+      url: '../json/budget',
+      data: {
+        year: year,
+        month: month == 0 ? undefined : month,
+        type: allTypes ? undefined : type
       },
       dataType: "json",
       success: callback
@@ -273,6 +311,7 @@ function refreshAccountsGraph() {
 }
 
 $("#bm-nav-transfers").click(() => displayTransfers());
+$("#bm-nav-budget").click(() => displayBudget());
 $("#bm-nav-accounts").click(() => displayAccounts());
 
 $( ".bm-menu-combo" ).change(function() {
@@ -285,6 +324,8 @@ $( ".bm-menu-combo" ).change(function() {
 
 $.when( refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes() ).done(() => {
   refreshTransfersTable();
+  
+  //refreshBudgetTable();
   
   refreshSubAccountsTable();
   refreshIncomingTransfersTable();
