@@ -84,11 +84,11 @@ public class BmModelService implements RcdService, BmModelConstants {
                 .collect(Collectors.toList());
 
         transfers.stream()
-                .forEach(transfer -> {
-                    transfersByDate.add(transfer.getDate(), transfer);
-                    transfersBySourceDate.add(transfer.getSourceDate(), transfer);
-                    transfersByTargetDate.add(transfer.getTargetDate(), transfer);
-                });
+        .forEach(transfer -> {
+            transfersByDate.add(transfer.getDate(), transfer);
+            transfersBySourceDate.add(transfer.getSourceDate(), transfer);
+            transfersByTargetDate.add(transfer.getTargetDate(), transfer);
+        });
 
     }
 
@@ -114,6 +114,10 @@ public class BmModelService implements RcdService, BmModelConstants {
 
     public Set<String> findTypeNames() {
         return typeMap.keySet();
+    }
+
+    public Type findType(final String key) {
+        return typeMap.get(key);
     }
 
     public Account findAccount(final String key) {
@@ -168,5 +172,21 @@ public class BmModelService implements RcdService, BmModelConstants {
             date = date.plusDays(1);
         }
         return deltas;
+    }
+
+    public double findTypeBalance(final Integer year, final Integer month, final String type) {
+        return transfersByDate.findTransfers(year, month)
+                .filter(transfer -> transfer.getType()
+                        .isOrChildOf(type))
+                .mapToDouble(transfer -> {
+                    if (transfer.isIncoming("Assets")) {
+                        return transfer.getAmount();
+                    }
+                    if (transfer.isOutgoing("Assets")) {
+                        return -1 * transfer.getAmount();
+                    }
+                    return 0;
+                })
+                .sum();
     }
 }

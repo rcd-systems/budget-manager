@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import systems.rcd.bm.model.BmModelService;
-import systems.rcd.bm.model.data.Account;
 import systems.rcd.bm.model.data.Type;
 import systems.rcd.fwk.core.ctx.RcdContext;
 import systems.rcd.fwk.core.format.json.RcdJsonService;
@@ -26,34 +25,32 @@ public class BmBudgetJsonInterfaceHandler implements RcdJettyHandler {
                 : Integer.parseInt(request.getParameter("month"));
         final String typeName = request.getParameter("type");
 
-        final Integer endYear = year + (month == null ? 1 : 0);
-        final Integer endMonth = month == null ? null : (month + 1) % 12;
-
         final RcdJsonArray jsonResponse = RcdJsonService.createJsonArray();
 
-        for (final Type subType : RcdContext.getService(BmModelService.class)
-                .findTypes()) {
-            // jsonResponse.add(toJsonObject(subType, year, month));
+        final Type type = RcdContext.getService(BmModelService.class)
+                .findType(typeName);
+
+        for (final Type subType : type.getSubTypes()) {
+            final RcdJsonObject subTypeJsonObject = toJsonObject(year, month, subType);
+            jsonResponse.add(subTypeJsonObject);
         }
+
+        final RcdJsonObject typeJsonObject = toJsonObject(year, month, type);
+        jsonResponse.add(typeJsonObject);
 
         response.setContentType("application/json; charset=utf-8");
         response.getWriter()
-                .println(RcdJsonService.toJson(jsonResponse));
+        .println(RcdJsonService.toJson(jsonResponse));
     }
 
-    private RcdJsonObject toJsonObject(final Account account, final Integer year, final Integer month,
-            final Integer endYear, final Integer endMonth) {
-        final double start = RcdContext.getService(BmModelService.class)
-                .findInitialAmount(year, month, account.getName());
-        final double end = RcdContext.getService(BmModelService.class)
-                .findInitialAmount(endYear, endMonth, account.getName());
+    private RcdJsonObject toJsonObject(final Integer year, final Integer month, final Type type) {
+        final double balance = RcdContext.getService(BmModelService.class)
+                .findTypeBalance(year, month, type.getName());
 
-        final RcdJsonObject subAccountJsonObject = RcdJsonService.createJsonObject();
-        subAccountJsonObject.put("name", account.getName());
-        subAccountJsonObject.put("start", start);
-        subAccountJsonObject.put("end", end);
-        subAccountJsonObject.put("delta", end - start);
+        final RcdJsonObject jsonObject = RcdJsonService.createJsonObject();
+        jsonObject.put("name", type.getName());
+        jsonObject.put("balance", balance);
 
-        return subAccountJsonObject;
+        return jsonObject;
     }
 }
