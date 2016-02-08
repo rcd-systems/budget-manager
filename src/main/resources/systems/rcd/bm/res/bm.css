@@ -117,10 +117,14 @@ select {
 
 .bm-menu-line > select {
   flex: 1 0 0;
-}
+}	
 
 :not(.rcd-header-row) > .bm-col-amount {
   justify-content: flex-end;
+}
+
+#bm-budget-tbody > *:last-child {
+  font-weight: bold;
 }
 
 #accounts-chart {
