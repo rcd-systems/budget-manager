@@ -22,7 +22,7 @@ select {
 }
 
 /* Flex containers */
-.bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details, .bm-menu-line, .rcd-row{
+.bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details, .bm-menu-line, .rcd-row, :not(.rcd-header-row) > .bm-col-amount {
   display: flex;    
 }
 
@@ -117,6 +117,10 @@ select {
 
 .bm-menu-line > select {
   flex: 1 0 0;
+}
+
+:not(.rcd-header-row) > .bm-col-amount {
+  justify-content: flex-end;
 }
 
 #accounts-chart {

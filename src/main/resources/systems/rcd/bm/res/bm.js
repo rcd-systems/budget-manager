@@ -141,11 +141,11 @@ function refreshBudgetTable() {
     $.each( data, function() {
       bmTbodytransfer += '<div class="rcd-row' + (otherRow ? ' rcd-other-row' : '') + '">';
       bmTbodytransfer += '<span class="bm-col-type">' + this.name + '</span>';
-      bmTbodytransfer += '<span class="bm-col-amount">' + this.amount.toFixed(2) + '</span>';
+      bmTbodytransfer += '<span class="bm-col-amount">' + this.balance.toFixed(2) + '</span>';
       bmTbodytransfer += '</div>';   
       otherRow = !otherRow;
     }); 
-    $('#bm-transfers-tbody').html(bmTbodytransfer);
+    $('#bm-budget-tbody').html(bmTbodytransfer);
   }
 
   var year = $('#bm-combo-year').val();
@@ -157,7 +157,7 @@ function refreshBudgetTable() {
       data: {
         year: year,
         month: month == 0 ? undefined : month,
-        type: allTypes ? undefined : type
+        type: allTypes ? "Budget" : type
       },
       dataType: "json",
       success: callback
@@ -316,6 +316,7 @@ $("#bm-nav-accounts").click(() => displayAccounts());
 
 $( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();
+	refreshBudgetTable();
     refreshSubAccountsTable();
     refreshIncomingTransfersTable();
     refreshOutgoingTransfersTable();
@@ -325,7 +326,7 @@ $( ".bm-menu-combo" ).change(function() {
 $.when( refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes() ).done(() => {
   refreshTransfersTable();
   
-  //refreshBudgetTable();
+  refreshBudgetTable();
   
   refreshSubAccountsTable();
   refreshIncomingTransfersTable();
