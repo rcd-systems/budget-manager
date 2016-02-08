@@ -98,10 +98,11 @@ public class BmXlsTransferConverter implements BmModelConstants {
         }
 
         final Transfer transfer = new Transfer(type, toLocalDate(dateInstant), amount.doubleValue(), currency);
-        transfer.setSourceAccount(srcAccount)
-        .setSourceDate(toLocalDate(srcDateInstant))
-        .setTargetAccount(tgtAccount)
-        .setTargetDate(toLocalDate(tgtDateInstant));
+        transfer.setComments(comments)
+                .setSourceAccount(srcAccount)
+                .setSourceDate(toLocalDate(srcDateInstant))
+                .setTargetAccount(tgtAccount)
+                .setTargetDate(toLocalDate(tgtDateInstant));
 
         return transfer;
     }
