@@ -20,6 +20,8 @@ public class BmTypesJsonInterfaceHandler implements RcdJettyHandler {
         final RcdJsonArray jsonArray = RcdJsonService.createJsonArray();
         RcdContext.getService(BmModelService.class)
                 .findTypeNames()
+                .stream()
+                .sorted()
                 .forEach(jsonArray::add);
 
         if (jsonArray != null) {

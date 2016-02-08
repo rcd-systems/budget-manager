@@ -175,6 +175,9 @@ public class BmModelService implements RcdService, BmModelConstants {
     }
 
     public double findTypeBalance(final Integer year, final Integer month, final String type) {
+        typeMap.get("Mission")
+        .isOrChildOf("Income");
+
         return transfersByDate.findTransfers(year, month)
                 .filter(transfer -> transfer.getType()
                         .isOrChildOf(type))
