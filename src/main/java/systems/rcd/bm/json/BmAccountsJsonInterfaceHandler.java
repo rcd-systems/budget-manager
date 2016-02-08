@@ -19,13 +19,15 @@ public class BmAccountsJsonInterfaceHandler implements RcdJettyHandler {
 
         final RcdJsonArray jsonArray = RcdJsonService.createJsonArray();
         RcdContext.getService(BmModelService.class)
-                .findAccountNames()
-                .forEach(jsonArray::add);
+        .findAccountNames()
+                .stream()
+                .sorted()
+        .forEach(jsonArray::add);
 
         if (jsonArray != null) {
             response.setContentType("application/json; charset=utf-8");
             response.getWriter()
-            .println(RcdJsonService.toJson(jsonArray));
+                    .println(RcdJsonService.toJson(jsonArray));
         }
     }
 }

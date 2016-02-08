@@ -122,7 +122,7 @@ public class Transfer {
             return false;
         }
 
-        if (sourceAccount.isChildOf(account)) {
+        if (sourceAccount.isOrChildOf(account)) {
             if (targetAccount == null || targetDate == null) {
                 return true;
             }

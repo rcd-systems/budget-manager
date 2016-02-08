@@ -41,7 +41,12 @@ public class BmTransfersIndexer {
 
     public Stream<Transfer> findTransfersBefore(final Integer year, final Integer month) {
         final LocalDate date = LocalDate.of(year, month == null ? 1 : month, 1);
-        return subTransfers(transferMap.firstKey(), date);
+        final LocalDate firstKey = transferMap.firstKey();
+        if (date.isBefore(firstKey)) {
+            return Stream.empty();
+        }
+
+        return subTransfers(firstKey, date);
     }
 
     private Stream<Transfer> subTransfers(final LocalDate start, final LocalDate end) {

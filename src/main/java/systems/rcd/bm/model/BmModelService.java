@@ -27,11 +27,11 @@ public class BmModelService implements RcdService, BmModelConstants {
     private Map<String, Type> typeMap;
     private List<Transfer> transfers;
 
-    private static List<Account> rootAccounts;
-    private static List<Type> rootTypes;
-    private static BmTransfersIndexer transfersByDate = new BmTransfersIndexer();
-    private static BmTransfersIndexer transfersBySourceDate = new BmTransfersIndexer();
-    private static BmTransfersIndexer transfersByTargetDate = new BmTransfersIndexer();
+    private List<Account> rootAccounts;
+    private List<Type> rootTypes;
+    private final BmTransfersIndexer transfersByDate = new BmTransfersIndexer();
+    private final BmTransfersIndexer transfersBySourceDate = new BmTransfersIndexer();
+    private final BmTransfersIndexer transfersByTargetDate = new BmTransfersIndexer();
 
     public BmModelService() throws Exception {
         final RcdXlsWorkbook workbook = parseInputFile();
@@ -84,11 +84,11 @@ public class BmModelService implements RcdService, BmModelConstants {
                 .collect(Collectors.toList());
 
         transfers.stream()
-        .forEach(transfer -> {
-            transfersByDate.add(transfer.getDate(), transfer);
-            transfersBySourceDate.add(transfer.getSourceDate(), transfer);
-            transfersByTargetDate.add(transfer.getTargetDate(), transfer);
-        });
+                .forEach(transfer -> {
+                    transfersByDate.add(transfer.getDate(), transfer);
+                    transfersBySourceDate.add(transfer.getSourceDate(), transfer);
+                    transfersByTargetDate.add(transfer.getTargetDate(), transfer);
+                });
 
     }
 
@@ -176,20 +176,20 @@ public class BmModelService implements RcdService, BmModelConstants {
 
     public double findTypeBalance(final Integer year, final Integer month, final String type) {
         typeMap.get("Mission")
-        .isOrChildOf("Income");
+                .isOrChildOf("Income");
 
         return transfersByDate.findTransfers(year, month)
                 .filter(transfer -> transfer.getType()
                         .isOrChildOf(type))
-                .mapToDouble(transfer -> {
-                    if (transfer.isIncoming("Assets")) {
-                        return transfer.getAmount();
-                    }
-                    if (transfer.isOutgoing("Assets")) {
-                        return -1 * transfer.getAmount();
-                    }
-                    return 0;
-                })
-                .sum();
+                        .mapToDouble(transfer -> {
+                            if (transfer.isIncoming("Assets")) {
+                                return transfer.getAmount();
+                            }
+                            if (transfer.isOutgoing("Assets")) {
+                                return -1 * transfer.getAmount();
+                            }
+                            return 0;
+                        })
+                        .sum();
     }
 }
