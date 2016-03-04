@@ -10,31 +10,31 @@ import systems.rcd.fwk.core.format.xls.data.RcdXlsRow;
 import systems.rcd.fwk.core.format.xls.data.RcdXlsSheet;
 
 public class BmXlsTypeConverter {
-    Map<String, Type> typeMap = new HashMap<>();
+	Map<String, Type> typeMap = new HashMap<>();
 
-    public Map<String, Type> convert(final RcdXlsSheet rcdXlsSheet) {
+	public Map<String, Type> convert(final RcdXlsSheet rcdXlsSheet) {
 
-        rcdXlsSheet.stream()
-        .skip(1)
-        .forEach(this::convert);
+		rcdXlsSheet.stream()
+		        .skip(1)
+		        .forEach(this::convert);
 
-        return Collections.synchronizedMap(typeMap);
-    }
+		return Collections.synchronizedMap(typeMap);
+	}
 
-    private void convert(final RcdXlsRow xlsRow) {
-        final String typeName = xlsRow.get(0)
-                .getStringValue();
-        final Type type = getType(typeName);
+	private void convert(final RcdXlsRow xlsRow) {
+		final String typeName = xlsRow.get(0)
+		        .getStringValue();
+		final Type type = getType(typeName);
 
-        xlsRow.stream()
-        .skip(1)
-        .filter(Objects::nonNull)
-        .map(cell -> getType(cell.getStringValue()))
-        .forEach(type::addSubType);
+		xlsRow.stream()
+		        .skip(1)
+		        .filter(Objects::nonNull)
+		        .map(cell -> getType(cell.getStringValue()))
+		        .forEach(type::addSubType);
 
-    }
+	}
 
-    private Type getType(final String name) {
-        return typeMap.computeIfAbsent(name, newName -> new Type(newName));
-    }
+	private Type getType(final String name) {
+		return typeMap.computeIfAbsent(name, newName -> new Type(newName));
+	}
 }

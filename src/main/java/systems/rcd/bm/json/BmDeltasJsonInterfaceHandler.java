@@ -16,32 +16,32 @@ import systems.rcd.fwk.jetty.impl.data.RcdJettyHandler;
 
 public class BmDeltasJsonInterfaceHandler implements RcdJettyHandler {
 
-    @Override
-    public void handle(final String target, final HttpServletRequest request, final HttpServletResponse response)
-            throws IOException {
+	@Override
+	public void handle(final String target, final HttpServletRequest request, final HttpServletResponse response)
+	        throws IOException {
 
-        final Integer year = request.getParameter("year") == null ? null
-                : Integer.parseInt(request.getParameter("year"));
-        final Integer month = request.getParameter("month") == null ? null
-                : Integer.parseInt(request.getParameter("month"));
-        final String account = request.getParameter("account");
+		final Integer year = request.getParameter("year") == null ? null
+		        : Integer.parseInt(request.getParameter("year"));
+		final Integer month = request.getParameter("month") == null ? null
+		        : Integer.parseInt(request.getParameter("month"));
+		final String account = request.getParameter("account");
 
-        final double initialAmount = RcdContext.getService(BmModelService.class)
-                .findInitialAmount(year, month, account);
-        final List<Entry<String, Integer>> deltas = RcdContext.getService(BmModelService.class)
-                .findDeltas(year, month, account);
+		final double initialAmount = RcdContext.getService(BmModelService.class)
+		        .findInitialAmount(year, month, account);
+		final List<Entry<String, Integer>> deltas = RcdContext.getService(BmModelService.class)
+		        .findDeltas(year, month, account);
 
-        final RcdJsonObject jsonResponse = RcdJsonService.createJsonObject();
-        jsonResponse.put("initial", initialAmount);
-        final RcdJsonArray deltaJsonArray = jsonResponse.createArray("deltas");
+		final RcdJsonObject jsonResponse = RcdJsonService.createJsonObject();
+		jsonResponse.put("initial", initialAmount);
+		final RcdJsonArray deltaJsonArray = jsonResponse.createArray("deltas");
 
-        for (final Entry<String, Integer> delta : deltas) {
-            deltaJsonArray.createObject()
-            .put("key", delta.getKey())
-            .put("value", delta.getValue());
-        }
-        response.setContentType("application/json; charset=utf-8");
-        response.getWriter()
-                .println(RcdJsonService.toJson(jsonResponse));
-    }
+		for (final Entry<String, Integer> delta : deltas) {
+			deltaJsonArray.createObject()
+			        .put("key", delta.getKey())
+			        .put("value", delta.getValue());
+		}
+		response.setContentType("application/json; charset=utf-8");
+		response.getWriter()
+		        .println(RcdJsonService.toJson(jsonResponse));
+	}
 }
