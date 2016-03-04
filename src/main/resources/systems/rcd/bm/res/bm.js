@@ -1,4 +1,4 @@
-﻿function display(selector) {
+function display(selector) {
     $(selector).removeClass("hidden");
 }
 
@@ -127,7 +127,7 @@ function refreshTransfersTable() {
         type: allTypes ? undefined : type,
         account: allAccounts ? undefined : account,
         fromAccount: fromAllAccounts ? undefined : fromAccount,
-        toAccount: toAllAccounts ? undefined : toAccount,
+        toAccount: toAllAccounts ? undefined : toAccount
       },
       dataType: "json",
       success: callback
