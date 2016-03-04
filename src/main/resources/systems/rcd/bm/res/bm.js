@@ -142,6 +142,7 @@ function refreshBudgetTable() {
       bmTbodytransfer += '<div class="rcd-row' + (otherRow ? ' rcd-other-row' : '') + '">';
       bmTbodytransfer += '<span class="bm-col-type">' + this.name + '</span>';
       bmTbodytransfer += '<span class="bm-col-amount">' + this.balance.toFixed(2) + '</span>';
+	  bmTbodytransfer += '<button class="bm-budget-button-display" type="' + this.name + '">Display</button>';
       bmTbodytransfer += '</div>';   
       otherRow = !otherRow;
     }); 
@@ -313,6 +314,8 @@ function refreshAccountsGraph() {
 $("#bm-nav-transfers").click(() => displayTransfers());
 $("#bm-nav-budget").click(() => displayBudget());
 $("#bm-nav-accounts").click(() => displayAccounts());
+
+$(".bm-budget-button-display").click(() => alert("test"));
 
 $( ".bm-menu-combo" ).change(function() {
     refreshTransfersTable();
