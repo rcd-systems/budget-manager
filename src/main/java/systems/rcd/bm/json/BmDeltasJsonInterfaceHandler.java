@@ -20,6 +20,8 @@ public class BmDeltasJsonInterfaceHandler implements RcdJettyHandler {
 	public void handle(final String target, final HttpServletRequest request, final HttpServletResponse response)
 	        throws IOException {
 
+		System.out.println("Test");
+
 		final Integer year = request.getParameter("year") == null ? null
 		        : Integer.parseInt(request.getParameter("year"));
 		final Integer month = request.getParameter("month") == null ? null
