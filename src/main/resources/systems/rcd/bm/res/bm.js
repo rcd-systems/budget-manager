@@ -310,19 +310,10 @@ function refreshAccountsGraph() {
     });
 }
 
-$("#bm-nav-transfers").click(() = > displayTransfers()
-)
-;
-$("#bm-nav-budget").click(() = > displayBudget()
-)
-;
-$("#bm-nav-accounts").click(() = > displayAccounts()
-)
-;
-
-$(".bm-budget-button-display").click(() = > alert("test")
-)
-;
+$("#bm-nav-transfers").click(() => displayTransfers());
+$("#bm-nav-budget").click(() => displayBudget());
+$("#bm-nav-accounts").click(() => displayAccounts());
+$(".bm-budget-button-display").click(() => alert("test"));
 
 $(".bm-menu-combo").change(function () {
     refreshTransfersTable();
@@ -333,24 +324,22 @@ $(".bm-menu-combo").change(function () {
     refreshAccountsGraph();
 });
 
-$.when(refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes()).done(() = > {
+$.when(refreshYearsCombobox(), refreshTypesCombobox(), refreshAccountsComboboxes()).done(() => {
     refreshTransfersTable();
 
-refreshBudgetTable();
+    refreshBudgetTable();
+    
+    refreshSubAccountsTable();
+    refreshIncomingTransfersTable();
+    refreshOutgoingTransfersTable();
+    
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(() => {
+        accountsChart = new google.visualization.LineChart(document.getElementById('accounts-chart'));
+        refreshAccountsGraph()
+    });
 
-refreshSubAccountsTable();
-refreshIncomingTransfersTable();
-refreshOutgoingTransfersTable();
-
-google.charts.load('current', {'packages': ['corechart']});
-google.charts.setOnLoadCallback(() = > {
-    accountsChart = new google.visualization.LineChart(document.getElementById('accounts-chart'));
-refreshAccountsGraph()
-})
-;
-
-})
-;
+});
 
 
 
