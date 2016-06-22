@@ -1,185 +1,197 @@
-﻿ <!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Budget Manager v8.0.0-SNAPSHOT</title>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="bm.css">
     <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-  </head>
-  <body class="bm-body">
-    <header class="bm-header">
-      <h1 class="bm-title" id="aa">Budget Manager</h1>
-      <nav class="bm-nav">
+</head>
+<body class="bm-body">
+<header class="bm-header">
+    <h1 class="bm-title" id="aa">Budget Manager</h1>
+    <nav class="bm-nav">
         <a class="bm-button" id="bm-nav-transfers">
-          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path d="M21,9L17,5V8H10V10H17V13M7,11L3,15L7,19V16H14V14H7V11Z" />
-          </svg>
-          <span>Transfers</span>
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path d="M21,9L17,5V8H10V10H17V13M7,11L3,15L7,19V16H14V14H7V11Z"/>
+            </svg>
+            <span>Transfers</span>
         </a>
-        <a class="bm-button"  id="bm-nav-budget">
-          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path d="M18,22A2,2 0 0,0 20,20V4C20,2.89 19.1,2 18,2H12V9L9.5,7.5L7,9V2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18Z" />
-          </svg>
-          <span>Budget</span>
+        <a class="bm-button" id="bm-nav-budget">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path d="M18,22A2,2 0 0,0 20,20V4C20,2.89 19.1,2 18,2H12V9L9.5,7.5L7,9V2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18Z"/>
+            </svg>
+            <span>Budget</span>
         </a>
-        <a class="bm-button"  id="bm-nav-accounts">
-          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.75L5.46,19H22V21H2V3H4V17.54L9.5,8L16,11.78Z" />
-          </svg>
-          <span>Accounts</span>
+        <a class="bm-button" id="bm-nav-accounts">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.75L5.46,19H22V21H2V3H4V17.54L9.5,8L16,11.78Z"/>
+            </svg>
+            <span>Accounts</span>
         </a>
-        <a class="bm-button"  id="bm-nav-save">
-          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
-          </svg>
-          <span>Save</span>
+        <a class="bm-button" id="bm-nav-save">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/>
+            </svg>
+            <span>Save</span>
         </a>
-      </nav>
-    </header>
-    <main class="bm-main">
-      <div id="bm-home">
+    </nav>
+</header>
+<main class="bm-main">
+    <div id="bm-home">
         <h1>Welcome to Budget Manager</h1>
+
         <p>Before you start, there are 2 concepts to apprehend</p>
+
         <h2>Account</h2>
+
         <p>You can see an account as a container which receives or sends money.
-        An account can contain sub accounts.
+            An account can contain sub accounts.
         </p>
+
         <h2>Transfer</h2>
+
         <p>A transfer is a movement of money from an account to another</p>
+
         <p>It has specific characteristics</p>
         <ul>
-          <li>Type: Type of transfer</li>
-          <li>Date: Date of the payment (Can be different from the date the money was effectively send or received)</li>
-          <li>Amount: The amount of money transfered</li>
-          <li>Currency: Currency</li>
-          <li>Comments: Optional comments about the transfer</li>
-          <li>Source account: Account sending the money. If undefined the money comes from outside your assets</li>
-          <li>Source date: Date at which the money was sent. If undefined the money was send on the date of payment </li>
-          <li>Target account: Account receiving the money. If undefined the money goes outside of your assets</li>
-          <li>Target date: Date at which the money was received. If undefined the money was received on the date of payment </li>
-        </ul>    
-         
-      </div>
-      <div id="bm-main-interface" class="hidden">
-        <div id="bm-menu">        
-          <form>
-            <div class="bm-menu-line">
-              <label>Year:</label>
-              <select id="bm-combo-year" class="bm-menu-combo">
-              </select>
-            </div>            
-            <div class="bm-menu-line">
-              <label>Month:</label>
-              <select id="bm-combo-month" class="bm-menu-combo">
-                <option>All months</option>
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
-              </select>
-            </div>
-            <div id="bm-menu-type" class="bm-menu-line">
-              <label>Type:</label>
-              <select id="bm-combo-type" class="bm-menu-combo">
-              </select>
-            </div>
-            <div id="bm-menu-account" class="bm-menu-line">
-              <label>Account:</label>
-              <select id="bm-combo-account" class="bm-menu-combo">
-              </select>
-            </div>
-            <div id="bm-menu-account-from" class="bm-menu-line">
-              <label>From:</label>
-              <select id="bm-combo-account-from" class="bm-menu-combo">
-              </select>
-            </div>
-            <div id="bm-menu-account-to" class="bm-menu-line">
-              <label>To:</label>
-              <select id="bm-combo-account-to" class="bm-menu-combo">
-              </select>
-            </div>
-          </form>        
+            <li>Type: Type of transfer</li>
+            <li>Date: Date of the payment (Can be different from the date the money was effectively send or received)</li>
+            <li>Amount: The amount of money transfered</li>
+            <li>Currency: Currency</li>
+            <li>Comments: Optional comments about the transfer</li>
+            <li>Source account: Account sending the money. If undefined the money comes from outside your assets</li>
+            <li>Source date: Date at which the money was sent. If undefined the money was send on the date of payment</li>
+            <li>Target account: Account receiving the money. If undefined the money goes outside of your assets</li>
+            <li>Target date: Date at which the money was received. If undefined the money was received on the date of payment</li>
+        </ul>
+
+    </div>
+    <div id="bm-main-interface" class="hidden">
+        <div id="bm-menu">
+            <form>
+                <div class="bm-menu-line">
+                    <label>Year:</label>
+                    <select id="bm-combo-year" class="bm-menu-combo">
+                    </select>
+                </div>
+                <div class="bm-menu-line">
+                    <label>Month:</label>
+                    <select id="bm-combo-month" class="bm-menu-combo">
+                        <option>All months</option>
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                    </select>
+                </div>
+                <div id="bm-menu-type" class="bm-menu-line">
+                    <label>Type:</label>
+                    <select id="bm-combo-type" class="bm-menu-combo">
+                    </select>
+                </div>
+                <div id="bm-menu-account" class="bm-menu-line">
+                    <label>Account:</label>
+                    <select id="bm-combo-account" class="bm-menu-combo">
+                    </select>
+                </div>
+                <div id="bm-menu-account-from" class="bm-menu-line">
+                    <label>From:</label>
+                    <select id="bm-combo-account-from" class="bm-menu-combo">
+                    </select>
+                </div>
+                <div id="bm-menu-account-to" class="bm-menu-line">
+                    <label>To:</label>
+                    <select id="bm-combo-account-to" class="bm-menu-combo">
+                    </select>
+                </div>
+            </form>
         </div>
         <div id="bm-transfers-details" class="bm-details hidden">
-          <h2 class="bm-details-title">Transfers</h2>
-          <div class="rcd-table">
-            <div class="rcd-row rcd-header-row">
-              <span class="bm-col-date">Date</span>
-              <span class="bm-col-type">Type</span>
-              <span class="bm-col-amount">Amount</span>
-              <span class="bm-col-account">From</span>
-              <span class="bm-col-date"></span>
-              <span class="bm-col-account">To</span>
-              <span class="bm-col-date"></span>
-              <span class="bm-col-comments">Comments</span>
+            <h2 class="bm-details-title">Transfers</h2>
+
+            <div class="rcd-table">
+                <div class="rcd-row rcd-header-row">
+                    <span class="bm-col-date">Date</span>
+                    <span class="bm-col-type">Type</span>
+                    <span class="bm-col-amount">Amount</span>
+                    <span class="bm-col-account">From</span>
+                    <span class="bm-col-date"></span>
+                    <span class="bm-col-account">To</span>
+                    <span class="bm-col-date"></span>
+                    <span class="bm-col-comments">Comments</span>
+                </div>
+                <div id="bm-transfers-tbody">
+                </div>
             </div>
-            <div id="bm-transfers-tbody">              
-            </div>
-          </div>
         </div>
         <div id="bm-budget-details" class="bm-details hidden">
-          <h2 class="bm-budget-title">Budget</h2>
-          <div class="rcd-table">
-            <div class="rcd-row rcd-header-row">
-              <span class="bm-col-type">Type</span>
-              <span class="bm-col-amount">Balance</span>
+            <h2 class="bm-budget-title">Budget</h2>
+
+            <div class="rcd-table">
+                <div class="rcd-row rcd-header-row">
+                    <span class="bm-col-type">Type</span>
+                    <span class="bm-col-amount">Balance</span>
+                </div>
+                <div id="bm-budget-tbody">
+                </div>
             </div>
-            <div id="bm-budget-tbody">            
-            </div>
-          </div>
         </div>
         <div id="bm-accounts-details" class="bm-details hidden">
-          <h2 class="bm-details-title">Accounts</h2>
-          <div id="accounts-chart"></div>
-          <h2 class="bm-details-title">Sub accounts</h2>
-          <div class="rcd-table">
-            <div class="rcd-row rcd-header-row">
-              <span class="bm-col-account">Account name</span>
-              <span class="bm-col-amount">Start</span>
-              <span class="bm-col-amount">End</span>
-              <span class="bm-col-amount">Delta</span>
+            <h2 class="bm-details-title">Accounts</h2>
+
+            <div id="accounts-chart"></div>
+            <h2 class="bm-details-title">Sub accounts</h2>
+
+            <div class="rcd-table">
+                <div class="rcd-row rcd-header-row">
+                    <span class="bm-col-account">Account name</span>
+                    <span class="bm-col-amount">Start</span>
+                    <span class="bm-col-amount">End</span>
+                    <span class="bm-col-amount">Delta</span>
+                </div>
+                <div id="bm-sub-accounts-tbody">
+                </div>
             </div>
-            <div id="bm-sub-accounts-tbody">              
+            <h2 class="bm-details-title">Incoming transfers</h2>
+
+            <div class="rcd-table">
+                <div class="rcd-row rcd-header-row">
+                    <span class="bm-col-date">Received the</span>
+                    <span class="bm-col-type">Type</span>
+                    <span class="bm-col-amount">Amount</span>
+                    <span class="bm-col-account">From</span>
+                    <span class="bm-col-date"></span>
+                    <span class="bm-col-comments">Comments</span>
+                </div>
+                <div id="bm-accounts-inc-tbody">
+                </div>
             </div>
-          </div>
-          <h2 class="bm-details-title">Incoming transfers</h2>
-          <div class="rcd-table">
-            <div class="rcd-row rcd-header-row">
-              <span class="bm-col-date">Received the</span>
-              <span class="bm-col-type">Type</span>
-              <span class="bm-col-amount">Amount</span>
-              <span class="bm-col-account">From</span>
-              <span class="bm-col-date"></span>
-              <span class="bm-col-comments">Comments</span>
+            <h2 class="bm-details-title">Outgoing transfers</h2>
+
+            <div class="rcd-table">
+                <div class="rcd-row rcd-header-row">
+                    <span class="bm-col-date">Sent the</span>
+                    <span class="bm-col-type">Type</span>
+                    <span class="bm-col-amount">Amount</span>
+                    <span class="bm-col-account">To</span>
+                    <span class="bm-col-date"></span>
+                    <span class="bm-col-comments">Comments</span>
+                </div>
+                <div id="bm-accounts-out-tbody">
+                </div>
             </div>
-            <div id="bm-accounts-inc-tbody">              
-            </div>
-          </div>
-          <h2 class="bm-details-title">Outgoing transfers</h2>
-          <div class="rcd-table">
-            <div class="rcd-row rcd-header-row">
-              <span class="bm-col-date">Sent the</span>
-              <span class="bm-col-type">Type</span>
-              <span class="bm-col-amount">Amount</span>
-              <span class="bm-col-account">To</span>
-              <span class="bm-col-date"></span>
-              <span class="bm-col-comments">Comments</span>
-            </div>
-            <div id="bm-accounts-out-tbody">              
-            </div>
-          </div>
-        </div>        
-      </div>      
-    </main>    
-    <script src="bm.js"></script>
-  </body>
+        </div>
+    </div>
+</main>
+<script src="bm.js"></script>
+</body>
 </html> 

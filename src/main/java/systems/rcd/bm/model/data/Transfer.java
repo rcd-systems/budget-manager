@@ -2,134 +2,170 @@ package systems.rcd.bm.model.data;
 
 import java.time.LocalDate;
 
-public class Transfer {
-	private Type type;
-	private LocalDate date;
-	private double amount;
-	private Currency currency;
-	private String comments;
-	private Account sourceAccount;
-	private LocalDate sourceDate;
-	private Account targetAccount;
-	private LocalDate targetDate;
+public class Transfer
+{
+    private Type type;
 
-	public Transfer(final Type type, final LocalDate date, final double amount, final Currency currency) {
-		this.type = type;
-		this.date = date;
-		this.amount = amount;
-		this.currency = currency;
-	}
+    private LocalDate date;
 
-	public Type getType() {
-		return type;
-	}
+    private double amount;
 
-	public Transfer setType(final Type type) {
-		this.type = type;
-		return this;
-	}
+    private Currency currency;
 
-	public LocalDate getDate() {
-		return date;
-	}
+    private String comments;
 
-	public Transfer setDate(final LocalDate date) {
-		this.date = date;
-		return this;
-	}
+    private Account sourceAccount;
 
-	public double getAmount() {
-		return amount;
-	}
+    private LocalDate sourceDate;
 
-	public Transfer setAmount(final double amount) {
-		this.amount = amount;
-		return this;
-	}
+    private Account targetAccount;
 
-	public Currency getCurrency() {
-		return currency;
-	}
+    private LocalDate targetDate;
 
-	public Transfer setCurrency(final Currency currency) {
-		this.currency = currency;
-		return this;
-	}
+    public Transfer( final Type type, final LocalDate date, final double amount, final Currency currency )
+    {
+        this.type = type;
+        this.date = date;
+        this.amount = amount;
+        this.currency = currency;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public Type getType()
+    {
+        return type;
+    }
 
-	public Transfer setComments(final String comments) {
-		this.comments = comments;
-		return this;
-	}
+    public Transfer setType( final Type type )
+    {
+        this.type = type;
+        return this;
+    }
 
-	public Account getSourceAccount() {
-		return sourceAccount;
-	}
+    public LocalDate getDate()
+    {
+        return date;
+    }
 
-	public Transfer setSourceAccount(final Account sourceAccount) {
-		this.sourceAccount = sourceAccount;
-		return this;
-	}
+    public Transfer setDate( final LocalDate date )
+    {
+        this.date = date;
+        return this;
+    }
 
-	public LocalDate getSourceDate() {
-		return sourceDate;
-	}
+    public double getAmount()
+    {
+        return amount;
+    }
 
-	public Transfer setSourceDate(final LocalDate sourceDate) {
-		this.sourceDate = sourceDate;
-		return this;
-	}
+    public Transfer setAmount( final double amount )
+    {
+        this.amount = amount;
+        return this;
+    }
 
-	public Account getTargetAccount() {
-		return targetAccount;
-	}
+    public Currency getCurrency()
+    {
+        return currency;
+    }
 
-	public Transfer setTargetAccount(final Account targetAccount) {
-		this.targetAccount = targetAccount;
-		return this;
-	}
+    public Transfer setCurrency( final Currency currency )
+    {
+        this.currency = currency;
+        return this;
+    }
 
-	public LocalDate getTargetDate() {
-		return targetDate;
-	}
+    public String getComments()
+    {
+        return comments;
+    }
 
-	public Transfer setTargetDate(final LocalDate targetDate) {
-		this.targetDate = targetDate;
-		return this;
-	}
+    public Transfer setComments( final String comments )
+    {
+        this.comments = comments;
+        return this;
+    }
 
-	public boolean isIncoming(final String account) {
-		if (targetAccount == null || targetDate == null) {
-			return false;
-		}
+    public Account getSourceAccount()
+    {
+        return sourceAccount;
+    }
 
-		if (targetAccount.isOrChildOf(account)) {
-			if (sourceAccount == null || sourceDate == null) {
-				return true;
-			}
+    public Transfer setSourceAccount( final Account sourceAccount )
+    {
+        this.sourceAccount = sourceAccount;
+        return this;
+    }
 
-			return !sourceAccount.isChildOf(account);
-		}
+    public LocalDate getSourceDate()
+    {
+        return sourceDate;
+    }
 
-		return false;
-	}
+    public Transfer setSourceDate( final LocalDate sourceDate )
+    {
+        this.sourceDate = sourceDate;
+        return this;
+    }
 
-	public boolean isOutgoing(final String account) {
-		if (sourceAccount == null || sourceDate == null) {
-			return false;
-		}
+    public Account getTargetAccount()
+    {
+        return targetAccount;
+    }
 
-		if (sourceAccount.isOrChildOf(account)) {
-			if (targetAccount == null || targetDate == null) {
-				return true;
-			}
-			return !targetAccount.isOrChildOf(account);
-		}
+    public Transfer setTargetAccount( final Account targetAccount )
+    {
+        this.targetAccount = targetAccount;
+        return this;
+    }
 
-		return false;
-	}
+    public LocalDate getTargetDate()
+    {
+        return targetDate;
+    }
+
+    public Transfer setTargetDate( final LocalDate targetDate )
+    {
+        this.targetDate = targetDate;
+        return this;
+    }
+
+    public boolean isIncoming( final String account )
+    {
+        if ( targetAccount == null || targetDate == null )
+        {
+            return false;
+        }
+
+        if ( targetAccount.isOrChildOf( account ) )
+        {
+            if ( sourceAccount == null || sourceDate == null )
+            {
+                return true;
+            }
+
+            return !sourceAccount.isChildOf( account );
+        }
+
+        return false;
+    }
+
+    public boolean isOutgoing( final String account )
+    {
+        if ( sourceAccount == null || sourceDate == null )
+        {
+            return false;
+        }
+
+        if ( sourceAccount.isOrChildOf( account ) )
+        {
+            if ( targetAccount == null || targetDate == null )
+            {
+                return true;
+            }
+            return !targetAccount.isOrChildOf( account );
+        }
+
+        return false;
+    }
 
 }

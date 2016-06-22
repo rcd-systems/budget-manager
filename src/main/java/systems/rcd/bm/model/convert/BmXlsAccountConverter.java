@@ -9,32 +9,30 @@ import systems.rcd.bm.model.data.Account;
 import systems.rcd.fwk.core.format.xls.data.RcdXlsRow;
 import systems.rcd.fwk.core.format.xls.data.RcdXlsSheet;
 
-public class BmXlsAccountConverter {
-	Map<String, Account> accountMap = new HashMap<>();
+public class BmXlsAccountConverter
+{
+    Map<String, Account> accountMap = new HashMap<>();
 
-	public Map<String, Account> convert(final RcdXlsSheet rcdXlsSheet) {
+    public Map<String, Account> convert( final RcdXlsSheet rcdXlsSheet )
+    {
 
-		rcdXlsSheet.stream()
-		        .skip(1)
-		        .forEach(this::convert);
+        rcdXlsSheet.stream().skip( 1 ).forEach( this::convert );
 
-		return Collections.synchronizedMap(accountMap);
-	}
+        return Collections.synchronizedMap( accountMap );
+    }
 
-	private void convert(final RcdXlsRow xlsRow) {
-		final String accountName = xlsRow.get(0)
-		        .getStringValue();
-		final Account account = getAccount(accountName);
+    private void convert( final RcdXlsRow xlsRow )
+    {
+        final String accountName = xlsRow.get( 0 ).getStringValue();
+        final Account account = getAccount( accountName );
 
-		xlsRow.stream()
-		        .skip(1)
-		        .filter(Objects::nonNull)
-		        .map(cell -> getAccount(cell.getStringValue()))
-		        .forEach(account::addSubAccount);
+        xlsRow.stream().skip( 1 ).filter( Objects::nonNull ).map( cell -> getAccount( cell.getStringValue() ) ).forEach(
+            account::addSubAccount );
 
-	}
+    }
 
-	private Account getAccount(final String name) {
-		return accountMap.computeIfAbsent(name, newName -> new Account(newName));
-	}
+    private Account getAccount( final String name )
+    {
+        return accountMap.computeIfAbsent( name, newName -> new Account( newName ) );
+    }
 }

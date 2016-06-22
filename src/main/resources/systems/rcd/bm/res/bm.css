@@ -1,137 +1,136 @@
-/* Removing default parameters */ 
+/* Removing default parameters */
 body, h1, p {
-  margin: 0;    
+    margin: 0;
 }
 
 select {
-  border: 1px solid #455a64;
-  color : #455a64;    
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
-  text-overflow: '';
+    border: 1px solid #455a64;
+    color: #455a64;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
 }
 
 /* Text padding */
-h1, a , label, .rcd-row{
-  padding: 0.5em 1em;
+h1, a, label, .rcd-row {
+    padding: 0.5em 1em;
 }
 
 select {
-  margin: 0.5em 1em;
+    margin: 0.5em 1em;
 }
 
 /* Flex containers */
 .bm-body, .bm-header, .bm-nav, .bm-button, .bm-main, #bm-main-interface, .bm-details, .bm-menu-line, .rcd-row, :not(.rcd-header-row) > .bm-col-amount {
-  display: flex;    
+    display: flex;
 }
 
-*/* Vertical flex containers */
-.bm-body, .bm-details {        
-  flex-direction : column;
+* /* Vertical flex containers */
+.bm-body, .bm-details {
+    flex-direction: column;
 }
 
 /* Common parameters */
-.bm-body > * {    
-  color : #455a64;
-  font-family: "Lucida Console", Monaco, monospace;
+.bm-body > * {
+    color: #455a64;
+    font-family: "Lucida Console", Monaco, monospace;
 }
 
-/* Background */ 
-.bm-header, #bm-menu, .rcd-header-row {  
-  background: #607d8b;
-  color: #FFFFFF;
-  fill: #FFFFFF;
+/* Background */
+.bm-header, #bm-menu, .rcd-header-row {
+    background: #607d8b;
+    color: #FFFFFF;
+    fill: #FFFFFF;
 }
 
-.rcd-other-row{
-  background: #eceff1;
+.rcd-other-row {
+    background: #eceff1;
 }
 
 /* Header */
 .bm-header {
-  width: 100%;
-  justify-content: space-between;
+    width: 100%;
+    justify-content: space-between;
 }
 
 /* Buttons */
 .bm-button {
-  cursor: pointer;   
-  align-items: center;
+    cursor: pointer;
+    align-items: center;
 }
 
 .bm-button span {
-  margin : 0 0.5em;    
+    margin: 0 0.5em;
 }
 
 .bm-button:hover {
-  color : #455a64;
-  fill : #455a64;
+    color: #455a64;
+    fill: #455a64;
 }
 
 .bm-nav {
-  align-self: flex-end;
-  justify-content: space-between;    
-  min-width: 600px;
+    align-self: flex-end;
+    justify-content: space-between;
+    min-width: 600px;
 }
 
 /* Main part */
 
-#bm-home, .bm-details {  
-  overflow: auto;
+#bm-home, .bm-details {
+    overflow: auto;
 }
 
-#bm-home{
-  width: 800px;
-  margin: auto;    
+#bm-home {
+    width: 800px;
+    margin: auto;
 }
 
 #bm-main-interface {
-  flex-basis:100%;
+    flex-basis: 100%;
 }
-
 
 .bm-details {
-  flex-grow: 2;
+    flex-grow: 2;
 }
 
-#bm-menu, .bm-details {  
-  padding : 1em;
+#bm-menu, .bm-details {
+    padding: 1em;
 }
 
 .bm-details-title {
-  align-self: center;
+    align-self: center;
 }
 
 .bm-col-date {
-  flex: 0 0 8em;
+    flex: 0 0 8em;
 }
 
 .bm-col-type, .bm-col-account, .bm-col-amount {
-  flex: 0 0 9em;
+    flex: 0 0 9em;
 }
 
 .bm-menu-line > label {
-  flex: 0 0 5em;
+    flex: 0 0 5em;
 }
 
 .bm-menu-line > select {
-  flex: 1 0 0;
-}	
+    flex: 1 0 0;
+}
 
 :not(.rcd-header-row) > .bm-col-amount {
-  justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 #bm-budget-tbody > *:last-child {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 #accounts-chart {
-  width:100%;
-  flex: 0 0 200px;
+    width: 100%;
+    flex: 0 0 200px;
 }
 
 .hidden {
-  display: none !important;
+    display: none !important;
 }
