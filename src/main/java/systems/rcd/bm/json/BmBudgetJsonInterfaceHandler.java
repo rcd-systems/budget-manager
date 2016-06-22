@@ -40,7 +40,7 @@ public class BmBudgetJsonInterfaceHandler
         jsonResponse.add( typeJsonObject );
 
         response.setContentType( "application/json; charset=utf-8" );
-        response.getWriter().println( RcdJsonService.toJson( jsonResponse ) );
+        response.getWriter().println( RcdJsonService.toString( jsonResponse ) );
     }
 
     private RcdJsonObject toJsonObject( final Integer year, final Integer month, final Type type )

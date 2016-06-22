@@ -39,7 +39,7 @@ public class BmSubAccountsJsonInterfaceHandler
         jsonResponse.add( toJsonObject( account, year, month, endYear, endMonth ) );
 
         response.setContentType( "application/json; charset=utf-8" );
-        response.getWriter().println( RcdJsonService.toJson( jsonResponse ) );
+        response.getWriter().println( RcdJsonService.toString( jsonResponse ) );
     }
 
     private RcdJsonObject toJsonObject( final Account account, final Integer year, final Integer month, final Integer endYear,

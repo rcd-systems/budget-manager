@@ -17,3 +17,6 @@ target/
 # IntelliJ exceptions
 *.iml
 .idea/*
+
+#Project Specific exceptions
+src/main/resources/input.xls*

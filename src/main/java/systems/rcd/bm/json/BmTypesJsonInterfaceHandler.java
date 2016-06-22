@@ -26,7 +26,7 @@ public class BmTypesJsonInterfaceHandler
         if ( jsonArray != null )
         {
             response.setContentType( "application/json; charset=utf-8" );
-            response.getWriter().println( RcdJsonService.toJson( jsonArray ) );
+            response.getWriter().println( RcdJsonService.toString( jsonArray ) );
         }
     }
 }

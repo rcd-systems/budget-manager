@@ -39,6 +39,6 @@ public class BmDeltasJsonInterfaceHandler
             deltaJsonArray.createObject().put( "key", delta.getKey() ).put( "value", delta.getValue() );
         }
         response.setContentType( "application/json; charset=utf-8" );
-        response.getWriter().println( RcdJsonService.toJson( jsonResponse ) );
+        response.getWriter().println( RcdJsonService.toString( jsonResponse ) );
     }
 }

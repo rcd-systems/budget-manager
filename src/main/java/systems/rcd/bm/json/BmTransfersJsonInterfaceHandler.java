@@ -38,7 +38,7 @@ public class BmTransfersJsonInterfaceHandler
         if ( jsonResponse != null )
         {
             response.setContentType( "application/json; charset=utf-8" );
-            response.getWriter().println( RcdJsonService.toJson( jsonResponse ) );
+            response.getWriter().println( RcdJsonService.toString( jsonResponse ) );
         }
         else
         {
