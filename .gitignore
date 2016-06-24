@@ -6,6 +6,9 @@
 *.ear
 hs_err_pid*
 
+#OS exception
+.DS_Store
+
 # Eclipse exceptions
 .classpath
 .project

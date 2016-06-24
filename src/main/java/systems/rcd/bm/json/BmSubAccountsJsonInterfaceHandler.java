@@ -27,7 +27,7 @@ public class BmSubAccountsJsonInterfaceHandler
         final String accountName = request.getParameter( "account" );
 
         final Integer endYear = year + ( month == null ? 1 : 0 );
-        final Integer endMonth = month == null ? null : ( month + 1 ) % 12;
+        final Integer endMonth = month == null ? null : ( ( month % 12 ) + 1 );
 
         final RcdJsonArray jsonResponse = RcdJsonService.createJsonArray();
 
