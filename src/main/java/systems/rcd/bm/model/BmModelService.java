@@ -47,6 +47,10 @@ public class BmModelService
         final RcdXlsWorkbook workbook = parseInputFile();
         validateFormat( workbook );
         load( workbook );
+
+        final List<RcdXlsWorkbook> rcdXlsWorkbooks = parseImports();
+        
+
         index();
     }
 
@@ -54,6 +58,11 @@ public class BmModelService
         throws Exception
     {
         return new BmModelInputParser().parseInputFile();
+    }
+
+    private List<RcdXlsWorkbook> parseImports()
+    {
+        return new BmModelInputParser().parseImports();
     }
 
     private void validateFormat( final RcdXlsWorkbook workbook )
